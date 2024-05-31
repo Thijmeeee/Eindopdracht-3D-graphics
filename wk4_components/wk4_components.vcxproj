@@ -161,6 +161,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="main\components\ArrowComponent.cpp" />
     <ClCompile Include="main\Camera.cpp" />
     <ClCompile Include="main\components\GroundPlaneComponent.cpp" />
     <ClCompile Include="main\components\BoundingBoxComponent.cpp" />
@@ -176,6 +177,7 @@
     <ClCompile Include="main\components\ModelComponent.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="main\components\ArrowComponent.h" />
     <ClInclude Include="main\Camera.h" />
     <ClInclude Include="main\components\GroundPlaneComponent.h" />
     <ClInclude Include="main\components\BoundingBoxComponent.h" />

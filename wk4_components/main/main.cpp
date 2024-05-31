@@ -15,6 +15,7 @@
 #include "components\MoveToComponent.h"
 #include "Camera.h"
 #include "GameObject.h"
+#include "components/ArrowComponent.h"
 
 #include "components/ModelComponent.h"
 
@@ -75,7 +76,7 @@ void init()
 	tigl::shader->setLightPosition(0, glm::normalize(glm::vec3(1, 1, 1)));
 	tigl::shader->setLightAmbient(0, glm::vec3(0.5f, 0.5f, 0.5f));
 	tigl::shader->setLightDiffuse(0, glm::vec3(0.5f, 0.5f, 0.5f));
-	tigl::shader->setLightSpecular(0, glm::vec3(1,1,1));
+	tigl::shader->setLightSpecular(0, glm::vec3(1, 1, 1));
 	tigl::shader->setShinyness(0);
 
 	camera = new Camera(window);
@@ -88,9 +89,20 @@ void init()
 	arrowModel = std::make_shared<ModelComponent>("./assets/arrow/Arrow5.obj");
 	arrowModel->loadModel();
 	
-		/*auto o = std::make_shared<GameObject>();
-		o->addComponent(arrowModel);
-		objects.push_back(o);*/
+	auto up = std::make_shared<GameObject>();
+	auto down = std::make_shared<GameObject>();
+	auto left = std::make_shared<GameObject>();
+	auto right = std::make_shared<GameObject>();
+
+	up->addComponent(std::make_shared<ArrowComponent>(ArrowComponent::Direction::UP, arrowModel));
+	down->addComponent(std::make_shared<ArrowComponent>(ArrowComponent::Direction::DOWN, arrowModel));
+	left->addComponent(std::make_shared<ArrowComponent>(ArrowComponent::Direction::LEFT, arrowModel));
+	right->addComponent(std::make_shared<ArrowComponent>(ArrowComponent::Direction::RIGHT, arrowModel));
+
+	objects.push_back(up);
+	objects.push_back(down);
+	objects.push_back(left);
+	objects.push_back(right);
 
 	/*for (int i = 0; i < 100; i++)
 	{
@@ -103,12 +115,12 @@ void init()
 	}*/
 
 	glfwSetKeyCallback(window, [](GLFWwindow* window, int key, int scancode, int action, int mods)
-		{
-			if (key == GLFW_KEY_ESCAPE)
-				glfwSetWindowShouldClose(window, true);
-			if (key == GLFW_KEY_LEFT_ALT && action == GLFW_PRESS)
-				enable_camera = !enable_camera;
-		});
+	{
+		if (key == GLFW_KEY_ESCAPE)
+			glfwSetWindowShouldClose(window, true);
+		if (key == GLFW_KEY_LEFT_ALT && action == GLFW_PRESS)
+			enable_camera = !enable_camera;
+	});
 }
 
 void update()
@@ -138,7 +150,7 @@ void draw()
 	{
 		tigl::shader->setViewMatrix(camera->getMatrix());
 	}
-	else tigl::shader->setViewMatrix(glm::lookAt(glm::vec3(10,5,5), glm::vec3(10,0,-25), glm::vec3(0,1,0)));
+	else tigl::shader->setViewMatrix(glm::lookAt(glm::vec3(10, 5, 5), glm::vec3(10, 0, -25), glm::vec3(0, 1, 0)));
 	tigl::shader->setModelMatrix(glm::mat4(1.0f));
 
 	tigl::shader->enableColor(true);
@@ -151,15 +163,12 @@ void draw()
 	//tigl::addVertex(Vertex::PCN(glm::vec3(50, 0, -50), glm::vec4(0, 0, 1, 1), glm::vec3(0, 1, 0)));
 	//tigl::end();
 
-	glm::mat4 arrowMatrix(1.0f);
+	/*glm::mat4 arrowMatrix(1.0f);
 	arrowMatrix = glm::scale(arrowMatrix, glm::vec3(0.25));
 	arrowMatrix = glm::translate(arrowMatrix, glm::vec3(60.0f, 5, 0));
 	tigl::shader->setModelMatrix(arrowMatrix);
-	arrowModel->draw();
+	arrowModel->draw();*/
 
 	for (auto& o : objects)
 		o->draw();
 }
-
-
-
