@@ -65,9 +65,11 @@
   </ImportGroup>
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="..\..\-Augmented-Reality-A4\OpenCV.props" />
   </ImportGroup>
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="..\..\-Augmented-Reality-A4\OpenCV.props" />
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
@@ -159,31 +161,32 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="BoundingBoxComponent.cpp" />
-    <ClCompile Include="Component.cpp" />
-    <ClCompile Include="CubeComponent.cpp" />
-    <ClCompile Include="DrawComponent.cpp" />
-    <ClCompile Include="EnemyComponent.cpp" />
-    <ClCompile Include="GameObject.cpp" />
-    <ClCompile Include="main.cpp" />
-    <ClCompile Include="MoveToComponent.cpp" />
-    <ClCompile Include="PlayerComponent.cpp" />
-    <ClCompile Include="SpinComponent.cpp" />
-    <ClCompile Include="tigl.cpp" />
-    <ClCompile Include="TimerJumper.cpp" />
+    <ClCompile Include="main\Camera.cpp" />
+    <ClCompile Include="main\components\GroundPlaneComponent.cpp" />
+    <ClCompile Include="main\components\BoundingBoxComponent.cpp" />
+    <ClCompile Include="main\components\Component.cpp" />
+    <ClCompile Include="main\components\CubeComponent.cpp" />
+    <ClCompile Include="main\components\DrawComponent.cpp" />
+    <ClCompile Include="main\GameObject.cpp" />
+    <ClCompile Include="main\main.cpp" />
+    <ClCompile Include="main\components\MoveToComponent.cpp" />
+    <ClCompile Include="main\components\PlayerComponent.cpp" />
+    <ClCompile Include="main\tigl.cpp" />
+    <ClCompile Include="main\Texture.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="BoundingBoxComponent.h" />
-    <ClInclude Include="Component.h" />
-    <ClInclude Include="CubeComponent.h" />
-    <ClInclude Include="DrawComponent.h" />
-    <ClInclude Include="EnemyComponent.h" />
-    <ClInclude Include="GameObject.h" />
-    <ClInclude Include="MoveToComponent.h" />
-    <ClInclude Include="PlayerComponent.h" />
-    <ClInclude Include="SpinComponent.h" />
-    <ClInclude Include="tigl.h" />
-    <ClInclude Include="TimerJumper.h" />
+    <ClInclude Include="main\Camera.h" />
+    <ClInclude Include="main\components\GroundPlaneComponent.h" />
+    <ClInclude Include="main\components\BoundingBoxComponent.h" />
+    <ClInclude Include="main\components\Component.h" />
+    <ClInclude Include="main\components\CubeComponent.h" />
+    <ClInclude Include="main\components\DrawComponent.h" />
+    <ClInclude Include="main\GameObject.h" />
+    <ClInclude Include="main\components\MoveToComponent.h" />
+    <ClInclude Include="main\components\PlayerComponent.h" />
+    <ClInclude Include="main\stb_image.h" />
+    <ClInclude Include="main\tigl.h" />
+    <ClInclude Include="main\Texture.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
