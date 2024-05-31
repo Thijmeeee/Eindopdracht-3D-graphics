@@ -173,6 +173,7 @@
     <ClCompile Include="main\components\PlayerComponent.cpp" />
     <ClCompile Include="main\tigl.cpp" />
     <ClCompile Include="main\Texture.cpp" />
+    <ClCompile Include="main\components\ModelComponent.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main\Camera.h" />
@@ -187,6 +188,7 @@
     <ClInclude Include="main\stb_image.h" />
     <ClInclude Include="main\tigl.h" />
     <ClInclude Include="main\Texture.h" />
+    <ClInclude Include="main\components\ModelComponent.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

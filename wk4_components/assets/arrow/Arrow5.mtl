@@ -1,0 +1,19 @@
+# 3ds Max Wavefront OBJ Exporter v0.97b - (c)2007 guruware
+# File Created: 19.03.2021 17:05:06
+
+newmtl Arrow5
+	ns 10.0000
+	ni 1.5000
+	d 1.0000
+	tr 0.0000
+	tf 1.0000 1.0000 1.0000 
+	illum 2
+	ka 1.0000 1.0000 1.0000
+	kd 1.0000 1.0000 1.0000
+	ks 0.0000 0.0000 0.0000
+	ke 0.0000 0.0000 0.0000
+	map_ka F:\M n B\_MESH\A mesh\Arrow 5\Arrow5Albedo.png
+	map_kd F:\M n B\_MESH\A mesh\Arrow 5\Arrow5Albedo.png
+	map_ks F:\M n B\_MESH\A mesh\Arrow 5\Arrow5Rough.png
+	map_bump -bm 0.3000 Map__55_Normal_Bump.tga
+	map_refl F:\M n B\_MESH\A mesh\Arrow 5\Arrow5Metal.png

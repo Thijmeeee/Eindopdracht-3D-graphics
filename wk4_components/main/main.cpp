@@ -7,14 +7,16 @@
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
 #include "tigl.h"
+
 #include <glm/gtc/matrix_transform.hpp>
+#include <glm/gtc/type_ptr.hpp>
+
 #include "components/GroundPlaneComponent.h"
-#include "components\PlayerComponent.h"
-#include "components\CubeComponent.h"
 #include "components\MoveToComponent.h"
 #include "Camera.h"
 #include "GameObject.h"
-#include <iostream>
+
+#include "components/ModelComponent.h"
 
 #pragma comment(lib, "glfw3.lib")
 #pragma comment(lib, "glew32s.lib")
@@ -31,6 +33,8 @@ Camera* camera;
 bool enable_camera = true;
 
 std::list<std::shared_ptr<GameObject>> objects;
+std::shared_ptr<ModelComponent> arrowModel;
+
 double lastFrameTime = 0;
 
 int main(void)
@@ -80,6 +84,13 @@ void init()
 	ground_plane->position = glm::vec3(0, 1, 5);
 	ground_plane->addComponent(std::make_shared<GroundPlaneComponent>());
 	objects.push_back(ground_plane);
+
+	arrowModel = std::make_shared<ModelComponent>("./assets/arrow/Arrow5.obj");
+	arrowModel->loadModel();
+	
+		/*auto o = std::make_shared<GameObject>();
+		o->addComponent(arrowModel);
+		objects.push_back(o);*/
 
 	/*for (int i = 0; i < 100; i++)
 	{
@@ -139,6 +150,12 @@ void draw()
 	//tigl::addVertex(Vertex::PCN(glm::vec3(50, 0, 50), glm::vec4(0, 0, 1, 1), glm::vec3(0, 1, 0)));
 	//tigl::addVertex(Vertex::PCN(glm::vec3(50, 0, -50), glm::vec4(0, 0, 1, 1), glm::vec3(0, 1, 0)));
 	//tigl::end();
+
+	glm::mat4 arrowMatrix(1.0f);
+	arrowMatrix = glm::scale(arrowMatrix, glm::vec3(0.25));
+	arrowMatrix = glm::translate(arrowMatrix, glm::vec3(60.0f, 5, 0));
+	tigl::shader->setModelMatrix(arrowMatrix);
+	arrowModel->draw();
 
 	for (auto& o : objects)
 		o->draw();

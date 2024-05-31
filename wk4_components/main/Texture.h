@@ -5,9 +5,7 @@
 
 #include <opencv2/opencv.hpp>
 
-#include "tigl.h"
-#define STB_IMAGE_IMPLEMENTATION 
-#include "stb_image.h" 
+
 
 class Texture
 {
