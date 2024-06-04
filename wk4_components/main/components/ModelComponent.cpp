@@ -182,10 +182,10 @@ ModelComponent::~ModelComponent(void)
 //load the vertices of the model for increased performance
 void ModelComponent::loadModel()
 {
-	for (auto group : groups)
+	for (const auto &group : groups)
 	{
 		materials[group->materialIndex]->texture->bind();
-		for (auto face : group->faces)
+		for (const auto &face : group->faces)
 		{
 			for (Vertex vertex : face.vertices)
 			{

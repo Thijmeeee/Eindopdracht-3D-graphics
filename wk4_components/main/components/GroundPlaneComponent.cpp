@@ -2,10 +2,10 @@
 
 GroundPlaneComponent::GroundPlaneComponent()
 {
-	glm::vec4 redColor(101.0f / 255.0f, 36.0f / 255.0f, 49.0f / 255.0f, 0);
-	glm::vec4 blueColor(0.0f, 26.0f / 255.0f, 101.0f / 255.0f, 0);
-	glm::vec4 cyanColor(0.0f, 205.0f / 255.0f, 194.0f / 255.0f, 0);
-	glm::vec4 orangeColor(1.0f, 174.0f / 255.0f, 62.0f / 255.0f, 0);
+	glm::vec4 redColor(255.0f / 255.0f, 36.0f / 255.0f, 49.0f / 255.0f, 0);
+	glm::vec4 blueColor(255.0f, 26.0f / 255.0f, 101.0f / 255.0f, 0);
+	glm::vec4 cyanColor(0.0f, 255.0f / 255.0f, 194.0f / 255.0f, 0);
+	glm::vec4 orangeColor(1.0f, 255.0f / 255.0f, 62.0f / 255.0f, 0);
 
 	// Base ground plane
 	verts.push_back(Vertex::PC(glm::vec3(4, -1, 0), blueColor));

@@ -6,6 +6,7 @@
 
 Texture::Texture(const std::string& fileName)
 {
+	std::cout << "loading texture " << fileName << std::endl;
 	stbi_set_flip_vertically_on_load(true);
 	glGenTextures(1, &id);
 
@@ -13,6 +14,8 @@ Texture::Texture(const std::string& fileName)
 	unsigned char* imgData = stbi_load(
 		fileName.c_str(), &width,
 		&height, &bpp, 4);
+	if(!imgData)
+		std::cout << "error loading texture " << fileName << std::endl;
 
 	glBindTexture(GL_TEXTURE_2D, id);
 

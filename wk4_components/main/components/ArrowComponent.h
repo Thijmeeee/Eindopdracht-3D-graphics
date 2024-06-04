@@ -16,8 +16,6 @@ class ArrowComponent : public DrawComponent
 public:
 	enum Direction { LEFT, RIGHT, UP, DOWN };
 
-	std::vector<tigl::Vertex> verts;
-
 	ArrowComponent(Direction direction, std::shared_ptr<ModelComponent> arrowModel);
 	~ArrowComponent() = default;
 
@@ -25,8 +23,7 @@ public:
 
 private:
 	std::shared_ptr<ModelComponent> arrowModel;
+	glm::vec4 color;
 	glm::mat4 arrowMatrix;
-
-
 };
 

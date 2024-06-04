@@ -89,20 +89,26 @@ void init()
 	arrowModel = std::make_shared<ModelComponent>("./assets/arrow/Arrow5.obj");
 	arrowModel->loadModel();
 	
-	auto up = std::make_shared<GameObject>();
-	auto down = std::make_shared<GameObject>();
-	auto left = std::make_shared<GameObject>();
-	auto right = std::make_shared<GameObject>();
+ 	auto up = std::make_shared<GameObject>();
+ 	auto down = std::make_shared<GameObject>();
+ 	auto left = std::make_shared<GameObject>();
+ 	auto right = std::make_shared<GameObject>();
 
-	up->addComponent(std::make_shared<ArrowComponent>(ArrowComponent::Direction::UP, arrowModel));
-	down->addComponent(std::make_shared<ArrowComponent>(ArrowComponent::Direction::DOWN, arrowModel));
-	left->addComponent(std::make_shared<ArrowComponent>(ArrowComponent::Direction::LEFT, arrowModel));
-	right->addComponent(std::make_shared<ArrowComponent>(ArrowComponent::Direction::RIGHT, arrowModel));
+ 	up->addComponent(std::make_shared<ArrowComponent>(ArrowComponent::Direction::UP, arrowModel));
+ 	down->addComponent(std::make_shared<ArrowComponent>(ArrowComponent::Direction::DOWN, arrowModel));
+ 	left->addComponent(std::make_shared<ArrowComponent>(ArrowComponent::Direction::LEFT, arrowModel));
+ 	right->addComponent(std::make_shared<ArrowComponent>(ArrowComponent::Direction::RIGHT, arrowModel));
 
-	objects.push_back(up);
-	objects.push_back(down);
-	objects.push_back(left);
-	objects.push_back(right);
+ 	objects.push_back(up);
+ 	objects.push_back(down);
+ 	objects.push_back(left);
+ 	objects.push_back(right);
+
+	auto test = std::make_shared<GameObject>();
+	test->addComponent(std::make_shared<MoveToComponent>());
+	test->getComponent<MoveToComponent>()->target = glm::vec3(0, 0, -100);
+	test->addComponent(std::make_shared<ArrowComponent>(ArrowComponent::Direction::UP, arrowModel));
+	objects.push_back(test);
 
 	/*for (int i = 0; i < 100; i++)
 	{
