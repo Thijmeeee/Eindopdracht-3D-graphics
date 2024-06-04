@@ -43,7 +43,9 @@ double lastFrameTime = 0;
 float totalGameTime = 10.0f;
 float remaingTime = totalGameTime;
 float lastSpawnTime = 0;
-float spawnInterval = 10.0f;
+float spawnInterval = 30.0f;
+
+int gameScore = 0;
 
 
 int main(void)
@@ -78,14 +80,20 @@ int main(void)
 void init()
 {
 	glEnable(GL_DEPTH_TEST);
+
+	tigl::shader->enableFog(true);
+	tigl::shader->setFogColor(glm::vec3(171.0f / 255.0, 174.0 / 255.0f, 176.0f / 255.0f));
+	tigl::shader->setFogExp(0.05f);
+
 	tigl::shader->enableLighting(true);
 	tigl::shader->setLightCount(1);
 	tigl::shader->setLightDirectional(0, true);
 	tigl::shader->setLightPosition(0, glm::normalize(glm::vec3(1, 1, 1)));
 	tigl::shader->setLightAmbient(0, glm::vec3(0.5f, 0.5f, 0.5f));
 	tigl::shader->setLightDiffuse(0, glm::vec3(0.5f, 0.5f, 0.5f));
-	tigl::shader->setLightSpecular(0, glm::vec3(1, 1, 1));
+	tigl::shader->setLightSpecular(0, glm::vec3(0.5f, 0.5f, 0.5f));
 	tigl::shader->setShinyness(0);
+
 
 	camera = new Camera(window);
 
@@ -132,7 +140,9 @@ void update()
 	if (enable_camera) camera->update(window);
 
 	remaingTime = std::max(0.0f, totalGameTime - (float)glfwGetTime());
-	spawnInterval = remaingTime / 20.0f;
+	spawnInterval = remaingTime / 10.0f;
+
+	
 	float currentFrameTime = (float)glfwGetTime();
 	float deltaTime = currentFrameTime - lastFrameTime;
 	lastFrameTime = currentFrameTime;
@@ -147,7 +157,16 @@ void update()
 	}
 
 	for (auto& o : objects)
+	{
 		o->update(deltaTime);
+
+		if (o->getComponent<ArrowComponent>() != nullptr && o->getComponent<ArrowComponent>()->playerPressedOnTime) {
+			gameScore++;
+		}
+	}
+		
+	
+	std::cout << gameScore << std::endl;
 
 	objects.erase(std::remove_if(objects.begin(), objects.end(), [](const std::shared_ptr<GameObject>& o)
 	{
@@ -183,14 +202,11 @@ void draw()
 
 void spawn_random_arrow()
 {
-	auto test = std::make_shared<GameObject>();
-	test->addComponent(std::make_shared<MoveToComponent>());
-
-	test->getComponent<MoveToComponent>()->target = glm::vec3(0, 0, 13.5f);
-
-	int random = rand() % 4;
-	ArrowComponent::Direction direction = static_cast<ArrowComponent::Direction>(random);
-	test->addComponent(std::make_shared<ArrowComponent>(direction, arrowModel, true));
-	test->addComponent(std::make_shared<ArrowUpdateComponent>());
-	objects.push_back(test);
+	auto o = std::make_shared<GameObject>();
+	o->addComponent(std::make_shared<MoveToComponent>());
+	o->getComponent<MoveToComponent>()->target = glm::vec3(0, 0, 27.0f);
+	ArrowComponent::Direction direction = static_cast<ArrowComponent::Direction>(rand() % 4);
+	o->addComponent(std::make_shared<ArrowComponent>(direction, arrowModel, true));
+	o->addComponent(std::make_shared<ArrowUpdateComponent>());
+	objects.push_back(o);
 }

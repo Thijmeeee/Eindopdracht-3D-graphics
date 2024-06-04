@@ -1,3 +1,4 @@
-﻿  ArrowUpdateComponent.cpp
+﻿  main.cpp
 C:\Github\Periode 4\Eindopdracht-3D-graphics\wk4_components\main\components\ArrowUpdateComponent.h(1,9): warning C4068: unknown pragma 'onceq'
+C:\Github\Periode 4\Eindopdracht-3D-graphics\wk4_components\main\main.cpp(148,18): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
   wk4_components.vcxproj -> C:\Github\Periode 4\Eindopdracht-3D-graphics\wk4_components\x64\Debug\wk4_components.exe

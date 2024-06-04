@@ -6,7 +6,7 @@
 ArrowComponent::ArrowComponent(Direction direction, std::shared_ptr<ModelComponent> arrowModel, bool spawner)
 	: arrowModel(arrowModel), arrowMatrix(1.0f)
 {
-	float z = -50;
+	float z = -100;
 	if (!spawner)
 	{
 		z = 0;

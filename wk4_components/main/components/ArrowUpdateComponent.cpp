@@ -9,32 +9,35 @@
 
 void ArrowUpdateComponent::update(float elapsedTime)
 {
-	if (gameObject->position.z > 20.00f)
+	if (gameObject->position.z >= 27.0f)
 	{
 		gameObject->destroy = true;
 
 	}
 
-	//TODO add
-	if (gameObject->position.z > 12.00f && gameObject->position.z < 12.50f)
+	
+	if (gameObject->position.z > 26.0f && gameObject->position.z < 27.0f)
 	{
 		if (glfwGetKey(glfwGetCurrentContext(), GLFW_KEY_UP) == GLFW_PRESS)
 		{
-
+			gameObject->getComponent<ArrowComponent>()->playerPressedOnTime = true;
 			gameObject->destroy = true;
 		}
 		else if (glfwGetKey(glfwGetCurrentContext(), GLFW_KEY_DOWN) == GLFW_PRESS)
 		{
+			gameObject->getComponent<ArrowComponent>()->playerPressedOnTime = true;
 			gameObject->destroy = true;
 		}
 
 		else if (glfwGetKey(glfwGetCurrentContext(), GLFW_KEY_LEFT) == GLFW_PRESS)
 		{
+			gameObject->getComponent<ArrowComponent>()->playerPressedOnTime = true;
 			gameObject->destroy = true;
 		}
 
 		else if (glfwGetKey(glfwGetCurrentContext(), GLFW_KEY_RIGHT) == GLFW_PRESS)
 		{
+			gameObject->getComponent<ArrowComponent>()->playerPressedOnTime = true;
 			gameObject->destroy = true;
 		}
 	}

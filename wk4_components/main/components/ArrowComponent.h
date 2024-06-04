@@ -21,10 +21,13 @@ public:
 
 	virtual void draw() override;
 
+	bool playerPressedOnTime = false;
+
 private:
 	std::shared_ptr<ModelComponent> arrowModel;
 	glm::vec4 color;
 	glm::mat4 arrowMatrix;
+	
 	
 };
 

@@ -172,7 +172,6 @@
     <ClCompile Include="main\GameObject.cpp" />
     <ClCompile Include="main\main.cpp" />
     <ClCompile Include="main\components\MoveToComponent.cpp" />
-    <ClCompile Include="main\components\PlayerComponent.cpp" />
     <ClCompile Include="main\tigl.cpp" />
     <ClCompile Include="main\Texture.cpp" />
     <ClCompile Include="main\components\ModelComponent.cpp" />
@@ -188,7 +187,6 @@
     <ClInclude Include="main\components\DrawComponent.h" />
     <ClInclude Include="main\GameObject.h" />
     <ClInclude Include="main\components\MoveToComponent.h" />
-    <ClInclude Include="main\components\PlayerComponent.h" />
     <ClInclude Include="main\stb_image.h" />
     <ClInclude Include="main\tigl.h" />
     <ClInclude Include="main\Texture.h" />
