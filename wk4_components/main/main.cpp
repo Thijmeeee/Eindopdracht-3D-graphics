@@ -4,6 +4,8 @@
 #pragma comment(lib, "opencv_world490")
 #endif
 
+#include <ft2build.h>
+
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
 #include "tigl.h"
