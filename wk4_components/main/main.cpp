@@ -40,7 +40,7 @@ std::list<std::shared_ptr<GameObject>> objects;
 std::shared_ptr<ModelComponent> arrowModel;
 
 double lastFrameTime = 0;
-float totalGameTime = 20.0f;
+float totalGameTime = 10.0f;
 float remaingTime = totalGameTime;
 float lastSpawnTime = 0;
 float spawnInterval = 10.0f;
@@ -96,11 +96,6 @@ void init()
 
 	init_arrows();
 
-	for (int i = 1; i <= 100; i++)
-	{
-		
-	}
-
 	glfwSetKeyCallback(window, [](GLFWwindow* window, int key, int scancode, int action, int mods)
 	{
 		if (key == GLFW_KEY_ESCAPE)
@@ -137,28 +132,27 @@ void update()
 	if (enable_camera) camera->update(window);
 
 	remaingTime = std::max(0.0f, totalGameTime - (float)glfwGetTime());
-
 	spawnInterval = remaingTime / 20.0f;
-
 	float currentFrameTime = (float)glfwGetTime();
 	float deltaTime = currentFrameTime - lastFrameTime;
 	lastFrameTime = currentFrameTime;
 
-	if (currentFrameTime - lastSpawnTime >= spawnInterval)
+	if (remaingTime > 2.0f)
 	{
-		if (remaingTime != 0.0f)
+		if (currentFrameTime - lastSpawnTime >= spawnInterval)
 		{
 			spawn_random_arrow();
+			lastSpawnTime = currentFrameTime;
 		}
-		lastSpawnTime = currentFrameTime;
 	}
 
 	for (auto& o : objects)
 		o->update(deltaTime);
 
-	objects.erase(std::remove_if(objects.begin(), objects.end(), [](const std::shared_ptr<GameObject>& o) {
-		return o-> destroy;
-		}), objects.end());
+	objects.erase(std::remove_if(objects.begin(), objects.end(), [](const std::shared_ptr<GameObject>& o)
+	{
+		return o->destroy;
+	}), objects.end());
 }
 
 
