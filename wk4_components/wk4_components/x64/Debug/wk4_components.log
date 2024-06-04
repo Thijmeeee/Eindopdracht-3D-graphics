@@ -1,5 +1,4 @@
-﻿  ArrowComponent.cpp
-glew32s.lib(glew.obj) : warning LNK4099: PDB '' was not found with 'glew32s.lib(glew.obj)' or at ''; linking object as if no debug info
-MSVCRTD.lib(initializers.obj) : warning LNK4098: defaultlib 'msvcrt.lib' conflicts with use of other libs; use /NODEFAULTLIB:library
-MSVCRTD.lib(initializers.obj) : warning LNK4098: defaultlib 'libcmt.lib' conflicts with use of other libs; use /NODEFAULTLIB:library
+﻿  main.cpp
+C:\Github\Periode 4\Eindopdracht-3D-graphics\wk4_components\main\components\ArrowUpdateComponent.h(1,9): warning C4068: unknown pragma 'onceq'
+C:\Github\Periode 4\Eindopdracht-3D-graphics\wk4_components\main\main.cpp(144,18): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
   wk4_components.vcxproj -> C:\Github\Periode 4\Eindopdracht-3D-graphics\wk4_components\x64\Debug\wk4_components.exe

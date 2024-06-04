@@ -163,6 +163,7 @@
   <ItemGroup>
     <ClCompile Include="main\components\ArrowComponent.cpp" />
     <ClCompile Include="main\Camera.cpp" />
+    <ClCompile Include="main\components\ArrowUpdateComponent.cpp" />
     <ClCompile Include="main\components\GroundPlaneComponent.cpp" />
     <ClCompile Include="main\components\BoundingBoxComponent.cpp" />
     <ClCompile Include="main\components\Component.cpp" />
@@ -179,6 +180,7 @@
   <ItemGroup>
     <ClInclude Include="main\components\ArrowComponent.h" />
     <ClInclude Include="main\Camera.h" />
+    <ClInclude Include="main\components\ArrowUpdateComponent.h" />
     <ClInclude Include="main\components\GroundPlaneComponent.h" />
     <ClInclude Include="main\components\BoundingBoxComponent.h" />
     <ClInclude Include="main\components\Component.h" />

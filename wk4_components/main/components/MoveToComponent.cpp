@@ -1,4 +1,6 @@
 #include "MoveToComponent.h"
+
+#include "ArrowComponent.h"
 #include "..\GameObject.h"
 
 
@@ -28,6 +30,4 @@ void MoveToComponent::update(float elapsedTime)
 
 		gameObject->position += normalVector * (speed * elapsedTime);
 	}
-
-
 }

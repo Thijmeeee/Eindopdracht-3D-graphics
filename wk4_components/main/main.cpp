@@ -16,6 +16,7 @@
 #include "Camera.h"
 #include "GameObject.h"
 #include "components/ArrowComponent.h"
+#include "components/ArrowUpdateComponent.h"
 
 #include "components/ModelComponent.h"
 
@@ -25,9 +26,11 @@
 
 using tigl::Vertex;
 
+void init_arrows();
 void init();
 void update();
 void draw();
+void spawn_random_arrow();
 
 GLFWwindow* window;
 Camera* camera;
@@ -37,6 +40,11 @@ std::list<std::shared_ptr<GameObject>> objects;
 std::shared_ptr<ModelComponent> arrowModel;
 
 double lastFrameTime = 0;
+float totalGameTime = 20.0f;
+float remaingTime = totalGameTime;
+float lastSpawnTime = 0;
+float spawnInterval = 10.0f;
+
 
 int main(void)
 {
@@ -86,39 +94,12 @@ void init()
 	ground_plane->addComponent(std::make_shared<GroundPlaneComponent>());
 	objects.push_back(ground_plane);
 
-	arrowModel = std::make_shared<ModelComponent>("./assets/arrow/Arrow5.obj");
-	arrowModel->loadModel();
-	
- 	auto up = std::make_shared<GameObject>();
- 	auto down = std::make_shared<GameObject>();
- 	auto left = std::make_shared<GameObject>();
- 	auto right = std::make_shared<GameObject>();
+	init_arrows();
 
- 	up->addComponent(std::make_shared<ArrowComponent>(ArrowComponent::Direction::UP, arrowModel));
- 	down->addComponent(std::make_shared<ArrowComponent>(ArrowComponent::Direction::DOWN, arrowModel));
- 	left->addComponent(std::make_shared<ArrowComponent>(ArrowComponent::Direction::LEFT, arrowModel));
- 	right->addComponent(std::make_shared<ArrowComponent>(ArrowComponent::Direction::RIGHT, arrowModel));
-
- 	objects.push_back(up);
- 	objects.push_back(down);
- 	objects.push_back(left);
- 	objects.push_back(right);
-
-	auto test = std::make_shared<GameObject>();
-	test->addComponent(std::make_shared<MoveToComponent>());
-	test->getComponent<MoveToComponent>()->target = glm::vec3(0, 0, -100);
-	test->addComponent(std::make_shared<ArrowComponent>(ArrowComponent::Direction::UP, arrowModel));
-	objects.push_back(test);
-
-	/*for (int i = 0; i < 100; i++)
+	for (int i = 1; i <= 100; i++)
 	{
-		auto o = std::make_shared<GameObject>();
-		o->position = glm::vec3(rand()%30-15, 1, rand()%30-15);
-		o->addComponent(std::make_shared<CubeComponent>(1.0f));
-		o->addComponent(std::make_shared<MoveToComponent>());
-		o->getComponent<MoveToComponent>()->target = o->position;
-		objects.push_back(o);
-	}*/
+		
+	}
 
 	glfwSetKeyCallback(window, [](GLFWwindow* window, int key, int scancode, int action, int mods)
 	{
@@ -129,15 +110,55 @@ void init()
 	});
 }
 
+void init_arrows()
+{
+	arrowModel = std::make_shared<ModelComponent>("./assets/arrow/Arrow5.obj");
+	arrowModel->loadModel();
+
+	auto up = std::make_shared<GameObject>();
+	auto down = std::make_shared<GameObject>();
+	auto left = std::make_shared<GameObject>();
+	auto right = std::make_shared<GameObject>();
+
+	up->addComponent(std::make_shared<ArrowComponent>(ArrowComponent::Direction::UP, arrowModel, false));
+	down->addComponent(std::make_shared<ArrowComponent>(ArrowComponent::Direction::DOWN, arrowModel, false));
+	left->addComponent(std::make_shared<ArrowComponent>(ArrowComponent::Direction::LEFT, arrowModel, false));
+	right->addComponent(std::make_shared<ArrowComponent>(ArrowComponent::Direction::RIGHT, arrowModel, false));
+
+	objects.push_back(up);
+	objects.push_back(down);
+	objects.push_back(left);
+	objects.push_back(right);
+}
+
+
 void update()
 {
 	if (enable_camera) camera->update(window);
-	double currentFrameTime = glfwGetTime();
-	double deltaTime = currentFrameTime - lastFrameTime;
+
+	remaingTime = std::max(0.0f, totalGameTime - (float)glfwGetTime());
+
+	spawnInterval = remaingTime / 20.0f;
+
+	float currentFrameTime = (float)glfwGetTime();
+	float deltaTime = currentFrameTime - lastFrameTime;
 	lastFrameTime = currentFrameTime;
 
+	if (currentFrameTime - lastSpawnTime >= spawnInterval)
+	{
+		if (remaingTime != 0.0f)
+		{
+			spawn_random_arrow();
+		}
+		lastSpawnTime = currentFrameTime;
+	}
+
 	for (auto& o : objects)
-		o->update((float)deltaTime);
+		o->update(deltaTime);
+
+	objects.erase(std::remove_if(objects.begin(), objects.end(), [](const std::shared_ptr<GameObject>& o) {
+		return o-> destroy;
+		}), objects.end());
 }
 
 
@@ -156,25 +177,26 @@ void draw()
 	{
 		tigl::shader->setViewMatrix(camera->getMatrix());
 	}
+
 	else tigl::shader->setViewMatrix(glm::lookAt(glm::vec3(10, 5, 5), glm::vec3(10, 0, -25), glm::vec3(0, 1, 0)));
 	tigl::shader->setModelMatrix(glm::mat4(1.0f));
 
 	tigl::shader->enableColor(true);
 
-	////temporary draw floor
-	//tigl::begin(GL_QUADS);
-	//tigl::addVertex(Vertex::PCN(glm::vec3(-50, 0, -50), glm::vec4(1, 0, 0, 1), glm::vec3(0,1,0)));
-	//tigl::addVertex(Vertex::PCN(glm::vec3(-50, 0, 50), glm::vec4(0, 1, 0, 1), glm::vec3(0, 1, 0)));
-	//tigl::addVertex(Vertex::PCN(glm::vec3(50, 0, 50), glm::vec4(0, 0, 1, 1), glm::vec3(0, 1, 0)));
-	//tigl::addVertex(Vertex::PCN(glm::vec3(50, 0, -50), glm::vec4(0, 0, 1, 1), glm::vec3(0, 1, 0)));
-	//tigl::end();
-
-	/*glm::mat4 arrowMatrix(1.0f);
-	arrowMatrix = glm::scale(arrowMatrix, glm::vec3(0.25));
-	arrowMatrix = glm::translate(arrowMatrix, glm::vec3(60.0f, 5, 0));
-	tigl::shader->setModelMatrix(arrowMatrix);
-	arrowModel->draw();*/
-
 	for (auto& o : objects)
 		o->draw();
+}
+
+void spawn_random_arrow()
+{
+	auto test = std::make_shared<GameObject>();
+	test->addComponent(std::make_shared<MoveToComponent>());
+
+	test->getComponent<MoveToComponent>()->target = glm::vec3(0, 0, 13.5f);
+
+	int random = rand() % 4;
+	ArrowComponent::Direction direction = static_cast<ArrowComponent::Direction>(random);
+	test->addComponent(std::make_shared<ArrowComponent>(direction, arrowModel, true));
+	test->addComponent(std::make_shared<ArrowUpdateComponent>());
+	objects.push_back(test);
 }
