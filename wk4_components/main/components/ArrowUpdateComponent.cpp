@@ -15,29 +15,31 @@ void ArrowUpdateComponent::update(float elapsedTime)
 
 	}
 
+
+	std::shared_ptr<ArrowComponent> arrow = gameObject->getComponent<ArrowComponent>();
 	
 	if (gameObject->position.z > 26.0f && gameObject->position.z < 27.0f)
 	{
-		if (glfwGetKey(glfwGetCurrentContext(), GLFW_KEY_UP) == GLFW_PRESS)
+		if (glfwGetKey(glfwGetCurrentContext(), GLFW_KEY_UP) == GLFW_PRESS && arrow->direction == ArrowComponent::Direction::UP)
 		{
-			gameObject->getComponent<ArrowComponent>()->playerPressedOnTime = true;
+			arrow->playerPressedOnTime = true;
 			gameObject->destroy = true;
 		}
-		else if (glfwGetKey(glfwGetCurrentContext(), GLFW_KEY_DOWN) == GLFW_PRESS)
+		else if (glfwGetKey(glfwGetCurrentContext(), GLFW_KEY_DOWN) == GLFW_PRESS && arrow->direction == ArrowComponent::Direction::DOWN)
 		{
-			gameObject->getComponent<ArrowComponent>()->playerPressedOnTime = true;
+			arrow->playerPressedOnTime = true;
+			gameObject->destroy = true;
+		}
+		
+		else if (glfwGetKey(glfwGetCurrentContext(), GLFW_KEY_LEFT) == GLFW_PRESS && arrow->direction == ArrowComponent::Direction::LEFT)
+		{
+			arrow->playerPressedOnTime = true;
 			gameObject->destroy = true;
 		}
 
-		else if (glfwGetKey(glfwGetCurrentContext(), GLFW_KEY_LEFT) == GLFW_PRESS)
+		else if (glfwGetKey(glfwGetCurrentContext(), GLFW_KEY_RIGHT) == GLFW_PRESS && arrow->direction == ArrowComponent::Direction::RIGHT)
 		{
-			gameObject->getComponent<ArrowComponent>()->playerPressedOnTime = true;
-			gameObject->destroy = true;
-		}
-
-		else if (glfwGetKey(glfwGetCurrentContext(), GLFW_KEY_RIGHT) == GLFW_PRESS)
-		{
-			gameObject->getComponent<ArrowComponent>()->playerPressedOnTime = true;
+			arrow->playerPressedOnTime = true;
 			gameObject->destroy = true;
 		}
 	}

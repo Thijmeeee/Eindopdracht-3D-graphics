@@ -22,6 +22,7 @@ public:
 	virtual void draw() override;
 
 	bool playerPressedOnTime = false;
+	Direction direction;
 
 private:
 	std::shared_ptr<ModelComponent> arrowModel;
