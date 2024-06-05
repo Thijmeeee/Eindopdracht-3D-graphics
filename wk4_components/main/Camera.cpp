@@ -49,15 +49,15 @@ void Camera::update(GLFWwindow* window)
 	lastY = y;
 
 	if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS)
-		move(0, 0.01f);
+		move(0, 0.1f);
 	if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)
-		move(180, 0.01f);
+		move(180, 0.1f);
 	if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)
-		move(90, 0.01f);
+		move(90, 0.1f);
 	if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS)
-		move(-90, 0.01f);
+		move(-90, 0.1f);
 	if (glfwGetKey(window, GLFW_KEY_Q) == GLFW_PRESS)
-		moveY(-0.01f);
+		moveY(-0.1f);
 	if (glfwGetKey(window, GLFW_KEY_Z) == GLFW_PRESS)
-		moveY(0.01f);
+		moveY(0.1f);
 }

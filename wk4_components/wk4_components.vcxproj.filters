@@ -33,9 +33,6 @@
     <ClCompile Include="main\components\MoveToComponent.cpp">
       <Filter>components</Filter>
     </ClCompile>
-    <ClCompile Include="main\components\PlayerComponent.cpp">
-      <Filter>components</Filter>
-    </ClCompile>
     <ClCompile Include="main\components\DrawComponent.cpp">
       <Filter>components</Filter>
     </ClCompile>
@@ -74,9 +71,6 @@
     <ClInclude Include="main\GameObject.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="main\components\PlayerComponent.h">
-      <Filter>components</Filter>
-    </ClInclude>
     <ClInclude Include="main\components\MoveToComponent.h">
       <Filter>components</Filter>
     </ClInclude>
@@ -111,6 +105,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="main\components\ArrowUpdateComponent.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="main\stb_truetype.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

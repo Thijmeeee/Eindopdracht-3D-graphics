@@ -1,4 +1,4 @@
 ﻿  main.cpp
 C:\Users\thijm\OneDrive - Avans Hogeschool\Documenten\GitHub\Eindopdracht-3D-graphics\wk4_components\main\components\ArrowUpdateComponent.h(1,9): warning C4068: unknown pragma 'onceq'
-C:\Users\thijm\OneDrive - Avans Hogeschool\Documenten\GitHub\Eindopdracht-3D-graphics\wk4_components\main\main.cpp(232,18): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+C:\Users\thijm\OneDrive - Avans Hogeschool\Documenten\GitHub\Eindopdracht-3D-graphics\wk4_components\main\main.cpp(171,18): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
   wk4_components.vcxproj -> C:\Users\thijm\OneDrive - Avans Hogeschool\Documenten\GitHub\Eindopdracht-3D-graphics\wk4_components\x64\Debug\wk4_components.exe

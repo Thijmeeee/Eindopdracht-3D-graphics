@@ -1,11 +1,10 @@
+
+#define _CRT_SECURE_NO_WARNINGS
 #ifdef _DEBUG
 #pragma comment(lib, "opencv_world490d")
 #else
 #pragma comment(lib, "opencv_world490")
 #endif
-
-//#include <ft2build.h>
-//#include FT_FREETYPE_H
 
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
@@ -22,18 +21,28 @@
 #include "components/ArrowUpdateComponent.h"
 
 #include "components/ModelComponent.h"
+#define STB_TRUETYPE_IMPLEMENTATION
+#include "stb_truetype.h"
 
 #pragma comment(lib, "glfw3.lib")
 #pragma comment(lib, "glew32s.lib")
 #pragma comment(lib, "opengl32.lib")
 
+
+
+GLuint texId;
+stbtt_bakedchar cdata[96];
+std::string text = "Hello world";
+
 using tigl::Vertex;
 
-void init_arrows();
 void init();
+void init_arrows();
+void init_font();
 void update();
 void draw();
-void spawn_random_arrow();
+void drawFont();
+void spawnRandomArrow();
 
 GLFWwindow* window;
 Camera* camera;
@@ -49,88 +58,6 @@ float lastSpawnTime = 0;
 float spawnInterval = 30.0f;
 
 int gameScore = 0;
-
-
-//void load_font(char* filePath, int fontSize)
-//{
-//	FT_Library fontLibrary;
-//	FT_Init_FreeType(&fontLibrary);
-//
-//	FT_Face fontFace;
-//	FT_New_Face(fontLibrary, filePath, 0, &fontFace);
-//	FT_Set_Pixel_Sizes(fontFace, 0, fontSize);
-//
-//	int padding = 2;
-//	int row = 0;
-//	int col = padding;
-//
-//	const int textureWidth = 512;
-//	char textureBuffer[textureWidth * textureWidth];
-//	for (FT_ULong glyphIdx = 32; glyphIdx < 127; ++glyphIdx)
-//	{
-//		FT_UInt glyphIndex = FT_Get_Char_Index(fontFace, glyphIdx);
-//		FT_Load_Glyph(fontFace, glyphIndex, FT_LOAD_DEFAULT);
-//		FT_Error error = FT_Render_Glyph(fontFace->glyph, FT_RENDER_MODE_NORMAL);
-//
-//		if (col + fontFace->glyph->bitmap.width + padding >= 512)
-//		{
-//			col = padding;
-//			row += fontSize;
-//		}
-//
-//		// Font Height
-//		renderData->fontHeight =
-//			max((fontFace->size->metrics.ascender - fontFace->size->metrics.descender) >> 6,
-//				renderData->fontHeight);
-//
-//		for (unsigned int y = 0; y < fontFace->glyph->bitmap.rows; ++y)
-//		{
-//			for (unsigned int x = 0; x < fontFace->glyph->bitmap.width; ++x)
-//			{
-//				textureBuffer[(row + y) * textureWidth + col + x] =
-//					fontFace->glyph->bitmap.buffer[y * fontFace->glyph->bitmap.width + x];
-//			}
-//		}
-//
-//		Glyph* glyph = &renderData->glyphs[glyphIdx];
-//		glyph->textureCoords = { col, row };
-//		glyph->size =
-//		{
-//		  (int)fontFace->glyph->bitmap.width,
-//		  (int)fontFace->glyph->bitmap.rows
-//		};
-//		glyph->advance =
-//		{
-//		  (float)(fontFace->glyph->advance.x >> 6),
-//		  (float)(fontFace->glyph->advance.y >> 6)
-//		};
-//		glyph->offset =
-//		{
-//		  (float)fontFace->glyph->bitmap_left,
-//		  (float)fontFace->glyph->bitmap_top,
-//		};
-//
-//		col += fontFace->glyph->bitmap.width + padding;
-//	}
-//
-//	FT_Done_Face(fontFace);
-//	FT_Done_FreeType(fontLibrary);
-//
-//	// Upload OpenGL Texture
-//	{
-//		glGenTextures(1, (GLuint*)&glContext.fontAtlasID);
-//		glActiveTexture(GL_TEXTURE1); // Bound to binding = 1, see quad.frag
-//		glBindTexture(GL_TEXTURE_2D, glContext.fontAtlasID);
-//
-//		glTexImage2D(GL_TEXTURE_2D, 0, GL_R8, textureWidth, textureWidth, 0,
-//			GL_RED, GL_UNSIGNED_BYTE, (char*)textureBuffer);
-//
-//		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-//		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-//		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-//		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-//	}
-//}
 
 
 int main(void)
@@ -161,7 +88,6 @@ int main(void)
 	return 0;
 }
 
-
 void init()
 {
 	glEnable(GL_DEPTH_TEST);
@@ -178,8 +104,6 @@ void init()
 	tigl::shader->setLightDiffuse(0, glm::vec3(0.5f, 0.5f, 0.5f));
 	tigl::shader->setLightSpecular(0, glm::vec3(0.5f, 0.5f, 0.5f));
 	tigl::shader->setShinyness(0);
-
-
 	camera = new Camera(window);
 
 	auto ground_plane = std::make_shared<GameObject>();
@@ -188,6 +112,7 @@ void init()
 	objects.push_back(ground_plane);
 
 	init_arrows();
+	init_font();
 
 	glfwSetKeyCallback(window, [](GLFWwindow* window, int key, int scancode, int action, int mods)
 	{
@@ -219,6 +144,20 @@ void init_arrows()
 	objects.push_back(right);
 }
 
+void init_font() {
+	unsigned char* ttf_buffer = new unsigned char[1 << 20];
+	unsigned char* temp_bitmap = new unsigned char[512 * 512];
+	fread(ttf_buffer, 1, 1 << 20, fopen("C:\\Windows\\Fonts\\arial.ttf", "rb"));
+	stbtt_BakeFontBitmap(ttf_buffer, 0, 32.0, temp_bitmap, 512, 512, 32, 96, cdata); // no guarantee this fits!
+	glGenTextures(1, &texId);
+	glBindTexture(GL_TEXTURE_2D, texId);
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_ALPHA, 512, 512, 0, GL_ALPHA, GL_UNSIGNED_BYTE, temp_bitmap);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+
+	delete[] ttf_buffer;
+	delete[] temp_bitmap;
+}
+
 
 void update()
 {
@@ -236,7 +175,7 @@ void update()
 	{
 		if (currentFrameTime - lastSpawnTime >= spawnInterval)
 		{
-			spawn_random_arrow();
+			spawnRandomArrow();
 			lastSpawnTime = currentFrameTime;
 		}
 	}
@@ -250,8 +189,6 @@ void update()
 		}
 	}
 		
-
-	
 	std::cout << gameScore << std::endl;
 
 	objects.erase(std::remove_if(objects.begin(), objects.end(), [](const std::shared_ptr<GameObject>& o)
@@ -280,13 +217,34 @@ void draw()
 	else tigl::shader->setViewMatrix(glm::lookAt(glm::vec3(10, 5, 5), glm::vec3(10, 0, -25), glm::vec3(0, 1, 0)));
 	tigl::shader->setModelMatrix(glm::mat4(1.0f));
 
+	tigl::shader->enableColor(false);
+	tigl::shader->enableLighting(false);
+	tigl::shader->enableTexture(true);
+	tigl::shader->enableColorMult(false);
+
+	glEnable(GL_BLEND);
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+	glDisable(GL_DEPTH_TEST);
+	glBindTexture(GL_TEXTURE_2D, texId);
+
+	drawFont();
+
 	tigl::shader->enableColor(true);
+	tigl::shader->enableLighting(true);
+	tigl::shader->enableTexture(false);
+	tigl::shader->enableColorMult(true);
+
+	glDisable(GL_BLEND);
+	glBlendFunc(GL_ONE, GL_ZERO); 
+	glEnable(GL_DEPTH_TEST);
+	glBindTexture(GL_TEXTURE_2D, 0); 
 
 	for (auto& o : objects)
 		o->draw();
+
 }
 
-void spawn_random_arrow()
+void spawnRandomArrow()
 {
 	auto o = std::make_shared<GameObject>();
 	o->addComponent(std::make_shared<MoveToComponent>());
@@ -295,4 +253,21 @@ void spawn_random_arrow()
 	o->addComponent(std::make_shared<ArrowComponent>(direction, arrowModel, true));
 	o->addComponent(std::make_shared<ArrowUpdateComponent>());
 	objects.push_back(o);
+}
+
+void drawFont() {
+	float x = 30, y = 5;
+	stbtt_aligned_quad q;
+	tigl::begin(GL_QUADS);
+	for (int i = 0; i < text.size(); i++) {
+		if (text[i] >= 32 && text[i] < 128) {
+			stbtt_GetBakedQuad(cdata, 512, 512, text[i] - 32, &x, &y, &q, 1);//1=opengl & d3d10+,0=d3d9
+			tigl::addVertex(Vertex::PT(glm::vec3(q.x0, q.y1, 0), glm::vec2(q.s0, q.t0)));
+			tigl::addVertex(Vertex::PT(glm::vec3(q.x1, q.y1, 0), glm::vec2(q.s1, q.t0)));
+			tigl::addVertex(Vertex::PT(glm::vec3(q.x1, q.y0, 0), glm::vec2(q.s1, q.t1)));
+			tigl::addVertex(Vertex::PT(glm::vec3(q.x0, q.y0, 0), glm::vec2(q.s0, q.t1)));
+		}
+	}
+	tigl::end();
+
 }
