@@ -17,29 +17,29 @@ ArrowComponent::ArrowComponent(Direction direction, std::shared_ptr<ModelCompone
 	{
 	case UP:
 	{
-		arrowMatrix = glm::translate(arrowMatrix, glm::vec3(35, 5, z));
+		arrowMatrix = glm::translate(arrowMatrix, glm::vec3(35, 6, z));
 		arrowMatrix = glm::rotate(arrowMatrix, glm::radians(90.0f), glm::vec3(0, 0, 1));
-		color = glm::vec4(0.5, 0.5, 0.5, 1);
+		color = glm::vec4(1.0f, 0.0f, 0.0f, 1.0f);
 		break;
 	}
 	case DOWN:
 	{
-		arrowMatrix = glm::translate(arrowMatrix, glm::vec3(45, 5, z));
+		arrowMatrix = glm::translate(arrowMatrix, glm::vec3(45, 6, z));
 		arrowMatrix = glm::rotate(arrowMatrix, glm::radians(270.0f), glm::vec3(0, 0, 1));
-		color = glm::vec4(1, 1, 1, 1);
+		color = glm::vec4(0.0f, 0.0f, 1.0f, 1.0f);
 		break;
 	}
 	case LEFT:
 	{
 		arrowMatrix = glm::translate(arrowMatrix, glm::vec3(25.0f, 5, z));
 		arrowMatrix = glm::rotate(arrowMatrix, glm::radians(180.f), glm::vec3(0, 1, 0));
-		color = glm::vec4(0, 0, 0.5, 1);
+		color = glm::vec4(0.2f, 1.0f, 0.3f, 1.0f);
 		break;
 	}
 	case RIGHT:
 	{
 		arrowMatrix = glm::translate(arrowMatrix, glm::vec3(60.0f, 5, z));
-		color = glm::vec4(1, 0, 0.5, 1);
+		color = glm::vec4(0.4f, 0.0f, 0.5f, 1.0f);
 		break;
 	}
 	}

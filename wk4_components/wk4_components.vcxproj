@@ -165,10 +165,9 @@
     <ClCompile Include="main\Camera.cpp" />
     <ClCompile Include="main\components\ArrowUpdateComponent.cpp" />
     <ClCompile Include="main\components\GroundPlaneComponent.cpp" />
-    <ClCompile Include="main\components\BoundingBoxComponent.cpp" />
     <ClCompile Include="main\components\Component.cpp" />
-    <ClCompile Include="main\components\CubeComponent.cpp" />
     <ClCompile Include="main\components\DrawComponent.cpp" />
+    <ClCompile Include="main\components\NumberComponent.cpp" />
     <ClCompile Include="main\GameObject.cpp" />
     <ClCompile Include="main\main.cpp" />
     <ClCompile Include="main\components\MoveToComponent.cpp" />
@@ -181,10 +180,10 @@
     <ClInclude Include="main\Camera.h" />
     <ClInclude Include="main\components\ArrowUpdateComponent.h" />
     <ClInclude Include="main\components\GroundPlaneComponent.h" />
-    <ClInclude Include="main\components\BoundingBoxComponent.h" />
     <ClInclude Include="main\components\Component.h" />
-    <ClInclude Include="main\components\CubeComponent.h" />
     <ClInclude Include="main\components\DrawComponent.h" />
+    <ClInclude Include="main\components\NumberComponent.h" />
+    <ClInclude Include="main\ScoreManager.h" />
     <ClInclude Include="main\GameObject.h" />
     <ClInclude Include="main\components\MoveToComponent.h" />
     <ClInclude Include="main\stb_image.h" />

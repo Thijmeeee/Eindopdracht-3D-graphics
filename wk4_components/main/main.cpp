@@ -13,12 +13,16 @@
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
 
-#include "components/GroundPlaneComponent.h"
-#include "components\MoveToComponent.h"
 #include "Camera.h"
 #include "GameObject.h"
+#include "ScoreManager.h"
+
+
+#include "components/GroundPlaneComponent.h"
+#include "components\MoveToComponent.h"
 #include "components/ArrowComponent.h"
 #include "components/ArrowUpdateComponent.h"
+#include "components/NumberComponent.h"
 
 #include "components/ModelComponent.h"
 #define STB_TRUETYPE_IMPLEMENTATION
@@ -28,20 +32,12 @@
 #pragma comment(lib, "glew32s.lib")
 #pragma comment(lib, "opengl32.lib")
 
-
-
-GLuint texId;
-stbtt_bakedchar cdata[96];
-std::string text = "Hello world";
-
 using tigl::Vertex;
 
 void init();
-void init_arrows();
-void init_font();
+void init_models();
 void update();
 void draw();
-void drawFont();
 void spawnRandomArrow();
 
 GLFWwindow* window;
@@ -58,6 +54,8 @@ float lastSpawnTime = 0;
 float spawnInterval = 30.0f;
 
 int gameScore = 0;
+
+ScoreManager scoreManager;
 
 
 int main(void)
@@ -93,16 +91,16 @@ void init()
 	glEnable(GL_DEPTH_TEST);
 
 	tigl::shader->enableFog(true);
-	tigl::shader->setFogColor(glm::vec3(171.0f / 255.0, 174.0 / 255.0f, 176.0f / 255.0f));
-	tigl::shader->setFogExp(0.05f);
+	tigl::shader->setFogColor(glm::vec3(200.0f / 255.0f, 215.0f / 255.0f, 230.0f / 255.0f));
+	tigl::shader->setFogExp(0.02f);
 
 	tigl::shader->enableLighting(true);
 	tigl::shader->setLightCount(1);
 	tigl::shader->setLightDirectional(0, true);
 	tigl::shader->setLightPosition(0, glm::normalize(glm::vec3(1, 1, 1)));
-	tigl::shader->setLightAmbient(0, glm::vec3(0.5f, 0.5f, 0.5f));
+	tigl::shader->setLightAmbient(0, glm::vec3(0.8f, 0.8f, 0.8f));
 	tigl::shader->setLightDiffuse(0, glm::vec3(0.5f, 0.5f, 0.5f));
-	tigl::shader->setLightSpecular(0, glm::vec3(0.5f, 0.5f, 0.5f));
+	tigl::shader->setLightSpecular(0, glm::vec3(1.0f, 1.0f, 1.0f));
 	tigl::shader->setShinyness(0);
 	camera = new Camera(window);
 
@@ -111,8 +109,7 @@ void init()
 	ground_plane->addComponent(std::make_shared<GroundPlaneComponent>());
 	objects.push_back(ground_plane);
 
-	init_arrows();
-	init_font();
+	init_models();
 
 	glfwSetKeyCallback(window, [](GLFWwindow* window, int key, int scancode, int action, int mods)
 	{
@@ -123,10 +120,18 @@ void init()
 	});
 }
 
-void init_arrows()
+void init_models()
 {
 	arrowModel = std::make_shared<ModelComponent>("./assets/arrow/Arrow5.obj");
 	arrowModel->loadModel();
+
+	auto numberModel = scoreManager.getNumberModel(0);
+	auto number = std::make_shared<GameObject>();
+	number->addComponent(std::make_shared<MoveToComponent>());
+	number->getComponent<MoveToComponent>()->target = glm::vec3(2.5, 3, -10);
+	number->addComponent(std::make_shared<NumberComponent>(numberModel));
+    objects.push_back(number);
+
 
 	auto up = std::make_shared<GameObject>();
 	auto down = std::make_shared<GameObject>();
@@ -144,20 +149,7 @@ void init_arrows()
 	objects.push_back(right);
 }
 
-void init_font() {
-	unsigned char* ttf_buffer = new unsigned char[1 << 20];
-	unsigned char* temp_bitmap = new unsigned char[512 * 512];
-	fread(ttf_buffer, 1, 1 << 20, fopen("C:\\Windows\\Fonts\\arial.ttf", "rb"));
-	stbtt_BakeFontBitmap(ttf_buffer, 0, 32.0, temp_bitmap, 512, 512, 32, 96, cdata); // no guarantee this fits!
-	glGenTextures(1, &texId);
-	glBindTexture(GL_TEXTURE_2D, texId);
-	glTexImage2D(GL_TEXTURE_2D, 0, GL_ALPHA, 512, 512, 0, GL_ALPHA, GL_UNSIGNED_BYTE, temp_bitmap);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-
-	delete[] ttf_buffer;
-	delete[] temp_bitmap;
-}
-
+int previousscore = 0;
 
 void update()
 {
@@ -166,7 +158,6 @@ void update()
 	remainingTime = std::max(0.0f, totalGameTime - (float)glfwGetTime());
 	spawnInterval = remainingTime / 10.0f;
 
-	
 	float currentFrameTime = (float)glfwGetTime();
 	float deltaTime = currentFrameTime - lastFrameTime;
 	lastFrameTime = currentFrameTime;
@@ -185,11 +176,19 @@ void update()
 		o->update(deltaTime);
 
 		if (o->getComponent<ArrowComponent>() != nullptr && o->getComponent<ArrowComponent>()->playerPressedOnTime) {
+			previousscore = gameScore;
 			gameScore++;
 		}
+
+		if (o->getComponent<NumberComponent>()) {
+			if (gameScore < 10 && scoreManager.getNumberModel(gameScore) != nullptr) {
+				o->getComponent<NumberComponent>()->numberModel = scoreManager.getNumberModel(gameScore);
+				o->getComponent<NumberComponent>()->shouldBeVisible = true;
+			}
+		}
+		
 	}
 		
-	std::cout << gameScore << std::endl;
 
 	objects.erase(std::remove_if(objects.begin(), objects.end(), [](const std::shared_ptr<GameObject>& o)
 	{
@@ -200,7 +199,7 @@ void update()
 
 void draw()
 {
-	glClearColor(0.3f, 0.4f, 0.6f, 1.0f);
+	glClearColor(0.1f, 0.1f, 0.2f, 1.0f);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 	int viewport[4];
@@ -214,33 +213,25 @@ void draw()
 		tigl::shader->setViewMatrix(camera->getMatrix());
 	}
 
-	else tigl::shader->setViewMatrix(glm::lookAt(glm::vec3(10, 5, 5), glm::vec3(10, 0, -25), glm::vec3(0, 1, 0)));
+	else tigl::shader->setViewMatrix(glm::lookAt(glm::vec3(10, 5, 5), glm::vec3(10, 0, -15), glm::vec3(0, 1, 0)));
 	tigl::shader->setModelMatrix(glm::mat4(1.0f));
 
-	tigl::shader->enableColor(false);
-	tigl::shader->enableLighting(false);
-	tigl::shader->enableTexture(true);
-	tigl::shader->enableColorMult(false);
-
-	glEnable(GL_BLEND);
-	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-	glDisable(GL_DEPTH_TEST);
-	glBindTexture(GL_TEXTURE_2D, texId);
-
-	drawFont();
-
 	tigl::shader->enableColor(true);
-	tigl::shader->enableLighting(true);
-	tigl::shader->enableTexture(false);
-	tigl::shader->enableColorMult(true);
-
-	glDisable(GL_BLEND);
-	glBlendFunc(GL_ONE, GL_ZERO); 
-	glEnable(GL_DEPTH_TEST);
-	glBindTexture(GL_TEXTURE_2D, 0); 
 
 	for (auto& o : objects)
-		o->draw();
+	{
+		if ((o->getComponent<NumberComponent>() || o->getComponent<ArrowComponent>() || o->getComponent<GroundPlaneComponent>())) {
+			
+			if (o->getComponent<NumberComponent>() != nullptr) {
+				if (!(o->getComponent<NumberComponent>()->shouldBeVisible)) {
+					continue;
+				}
+			}
+
+			o->draw();
+		}
+	}
+		
 
 }
 
@@ -253,21 +244,4 @@ void spawnRandomArrow()
 	o->addComponent(std::make_shared<ArrowComponent>(direction, arrowModel, true));
 	o->addComponent(std::make_shared<ArrowUpdateComponent>());
 	objects.push_back(o);
-}
-
-void drawFont() {
-	float x = 30, y = 5;
-	stbtt_aligned_quad q;
-	tigl::begin(GL_QUADS);
-	for (int i = 0; i < text.size(); i++) {
-		if (text[i] >= 32 && text[i] < 128) {
-			stbtt_GetBakedQuad(cdata, 512, 512, text[i] - 32, &x, &y, &q, 1);//1=opengl & d3d10+,0=d3d9
-			tigl::addVertex(Vertex::PT(glm::vec3(q.x0, q.y1, 0), glm::vec2(q.s0, q.t0)));
-			tigl::addVertex(Vertex::PT(glm::vec3(q.x1, q.y1, 0), glm::vec2(q.s1, q.t0)));
-			tigl::addVertex(Vertex::PT(glm::vec3(q.x1, q.y0, 0), glm::vec2(q.s1, q.t1)));
-			tigl::addVertex(Vertex::PT(glm::vec3(q.x0, q.y0, 0), glm::vec2(q.s0, q.t1)));
-		}
-	}
-	tigl::end();
-
 }

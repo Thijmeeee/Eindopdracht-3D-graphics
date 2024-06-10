@@ -184,7 +184,10 @@ void ModelComponent::loadModel()
 {
 	for (const auto &group : groups)
 	{
-		materials[group->materialIndex]->texture->bind();
+		if (group->materialIndex != -1) {
+			materials[group->materialIndex]->texture->bind();
+		}
+		
 		for (const auto &face : group->faces)
 		{
 			for (Vertex vertex : face.vertices)
@@ -208,9 +211,12 @@ void ModelComponent::draw()
 	tigl::shader->enableTexture(true);
 	for (auto group : groups)
 	{
-		materials[group->materialIndex]->texture->bind();
-		tigl::drawVertices(GL_TRIANGLES, group->model);
-		materials[group->materialIndex]->texture->unbind();
+		if (group->materialIndex != -1) {
+			materials[group->materialIndex]->texture->bind();
+			tigl::drawVertices(GL_TRIANGLES, group->model);
+			materials[group->materialIndex]->texture->unbind();
+		}
+		else tigl::drawVertices(GL_TRIANGLES, group->model);
 	}
 	tigl::shader->enableTexture(false);
 }

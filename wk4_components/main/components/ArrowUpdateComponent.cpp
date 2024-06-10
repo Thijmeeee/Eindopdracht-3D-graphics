@@ -9,16 +9,15 @@
 
 void ArrowUpdateComponent::update(float elapsedTime)
 {
-	if (gameObject->position.z >= 27.0f)
+	if (gameObject->position.z >= 26.5f)
 	{
 		gameObject->destroy = true;
 
 	}
 
-
 	std::shared_ptr<ArrowComponent> arrow = gameObject->getComponent<ArrowComponent>();
 	
-	if (gameObject->position.z > 26.0f && gameObject->position.z < 27.0f)
+	if (gameObject->position.z > 25.0f && gameObject->position.z < 25.5f)
 	{
 		if (glfwGetKey(glfwGetCurrentContext(), GLFW_KEY_UP) == GLFW_PRESS && arrow->direction == ArrowComponent::Direction::UP)
 		{
