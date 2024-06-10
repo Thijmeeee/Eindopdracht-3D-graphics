@@ -14,13 +14,14 @@ class NumberComponent : public DrawComponent
 {
 
 public:
-	NumberComponent(std::shared_ptr<ModelComponent> numberModel);
+	NumberComponent(std::shared_ptr<ModelComponent> numberModel, bool shouldBeVisible, bool unit);
 	~NumberComponent() = default;
 
 	virtual void draw() override;
 
 	std::shared_ptr<ModelComponent> numberModel;
 	bool shouldBeVisible = false;
+	bool tens = false;
 
 private:
 	glm::vec4 color;

@@ -1,5 +1,3 @@
-
-#define _CRT_SECURE_NO_WARNINGS
 #ifdef _DEBUG
 #pragma comment(lib, "opencv_world490d")
 #else
@@ -117,6 +115,11 @@ void init()
 			glfwSetWindowShouldClose(window, true);
 		if (key == GLFW_KEY_LEFT_ALT && action == GLFW_PRESS)
 			enable_camera = !enable_camera;
+		if (key == GLFW_KEY_LEFT_CONTROL && action == GLFW_PRESS) {
+			remainingTime = totalGameTime;
+			lastFrameTime = 0;
+			lastSpawnTime = 0;
+		}
 	});
 }
 
@@ -126,12 +129,18 @@ void init_models()
 	arrowModel->loadModel();
 
 	auto numberModel = scoreManager.getNumberModel(0);
-	auto number = std::make_shared<GameObject>();
-	number->addComponent(std::make_shared<MoveToComponent>());
-	number->getComponent<MoveToComponent>()->target = glm::vec3(2.5, 3, -10);
-	number->addComponent(std::make_shared<NumberComponent>(numberModel));
-    objects.push_back(number);
 
+	auto unitsNumberObject = std::make_shared<GameObject>();
+	unitsNumberObject->addComponent(std::make_shared<MoveToComponent>());
+	unitsNumberObject->getComponent<MoveToComponent>()->target = glm::vec3(0, 3, -10);
+	unitsNumberObject->addComponent(std::make_shared<NumberComponent>(numberModel, true, false));
+	objects.push_back(unitsNumberObject);
+
+	auto tensNumberObject = std::make_shared<GameObject>();
+	tensNumberObject->addComponent(std::make_shared<MoveToComponent>());
+	tensNumberObject->getComponent<MoveToComponent>()->target = glm::vec3(-6, 3, -10); 
+	tensNumberObject->addComponent(std::make_shared<NumberComponent>(numberModel, true, true));
+	objects.push_back(tensNumberObject);
 
 	auto up = std::make_shared<GameObject>();
 	auto down = std::make_shared<GameObject>();
@@ -148,8 +157,6 @@ void init_models()
 	objects.push_back(left);
 	objects.push_back(right);
 }
-
-int previousscore = 0;
 
 void update()
 {
@@ -171,25 +178,31 @@ void update()
 		}
 	}
 
+	int units = gameScore % 10;
+	int tens = gameScore / 10;
+
 	for (auto& o : objects)
 	{
-		o->update(deltaTime);
-
-		if (o->getComponent<ArrowComponent>() != nullptr && o->getComponent<ArrowComponent>()->playerPressedOnTime) {
-			previousscore = gameScore;
-			gameScore++;
-		}
-
-		if (o->getComponent<NumberComponent>()) {
-			if (gameScore < 10 && scoreManager.getNumberModel(gameScore) != nullptr) {
-				o->getComponent<NumberComponent>()->numberModel = scoreManager.getNumberModel(gameScore);
-				o->getComponent<NumberComponent>()->shouldBeVisible = true;
+		auto numberComponent = o->getComponent<NumberComponent>();
+		if (numberComponent != nullptr) {
+			if (numberComponent->tens) {
+				numberComponent->numberModel = scoreManager.getNumberModel(tens);
+				numberComponent->shouldBeVisible = true;
+			}
+			else {
+				numberComponent->numberModel = scoreManager.getNumberModel(units);
+				numberComponent->shouldBeVisible = true;
 			}
 		}
-		
+
+		o->update(deltaTime);
+
+		auto arrowComponent = o->getComponent<ArrowComponent>();
+		if (arrowComponent != nullptr && arrowComponent->playerPressedOnTime) {
+			gameScore++;
+		}
 	}
 		
-
 	objects.erase(std::remove_if(objects.begin(), objects.end(), [](const std::shared_ptr<GameObject>& o)
 	{
 		return o->destroy;
@@ -217,22 +230,16 @@ void draw()
 	tigl::shader->setModelMatrix(glm::mat4(1.0f));
 
 	tigl::shader->enableColor(true);
+	//tigl::shader->enableColorMult(true);
 
 	for (auto& o : objects)
 	{
-		if ((o->getComponent<NumberComponent>() || o->getComponent<ArrowComponent>() || o->getComponent<GroundPlaneComponent>())) {
-			
-			if (o->getComponent<NumberComponent>() != nullptr) {
-				if (!(o->getComponent<NumberComponent>()->shouldBeVisible)) {
-					continue;
-				}
-			}
-
-			o->draw();
+		if (o->getComponent<NumberComponent>() != nullptr) {
+				o->draw();
+				continue;
 		}
+		o->draw();
 	}
-		
-
 }
 
 void spawnRandomArrow()

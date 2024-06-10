@@ -3,7 +3,8 @@
 #include "../GameObject.h"
 
 
-NumberComponent::NumberComponent(std::shared_ptr<ModelComponent> numberModel) : numberModel(numberModel), numberMatrix(1.0f)
+NumberComponent::NumberComponent(std::shared_ptr<ModelComponent> numberModel, bool shouldBeVisible, bool tens) 
+	: numberModel(numberModel), shouldBeVisible(shouldBeVisible), tens(tens), numberMatrix(1.0f)
 {
 	numberMatrix = glm::scale(numberMatrix, glm::vec3(10));
 
@@ -15,15 +16,17 @@ NumberComponent::NumberComponent(std::shared_ptr<ModelComponent> numberModel) : 
 
 void NumberComponent::draw()
 {
-	glm::mat4 modelMatrix(1.0f);
-	if (gameObject) {
-		modelMatrix = glm::translate(modelMatrix, gameObject->position);
-		modelMatrix = modelMatrix * numberMatrix;
-	}
-	tigl::shader->setModelMatrix(modelMatrix);
+	if (shouldBeVisible) {
+		glm::mat4 modelMatrix(1.0f);
+		if (gameObject) {
+			modelMatrix = glm::translate(modelMatrix, gameObject->position);
+			modelMatrix = modelMatrix * numberMatrix;
+		}
+		tigl::shader->setModelMatrix(modelMatrix);
 
-	tigl::shader->enableColorMult(true);
-	tigl::shader->setColorMult(color);
-	numberModel->draw();
-	tigl::shader->enableColorMult(false);
+		tigl::shader->enableColorMult(true);
+		tigl::shader->setColorMult(color);
+		numberModel->draw();
+		tigl::shader->enableColorMult(false);
+	}
 }
