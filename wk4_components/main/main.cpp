@@ -15,7 +15,6 @@
 #include "GameObject.h"
 #include "ScoreManager.h"
 
-
 #include "components/GroundPlaneComponent.h"
 #include "components\MoveToComponent.h"
 #include "components/ArrowComponent.h"
@@ -115,11 +114,6 @@ void init()
 			glfwSetWindowShouldClose(window, true);
 		if (key == GLFW_KEY_LEFT_ALT && action == GLFW_PRESS)
 			enable_camera = !enable_camera;
-		if (key == GLFW_KEY_LEFT_CONTROL && action == GLFW_PRESS) {
-			remainingTime = totalGameTime;
-			lastFrameTime = 0;
-			lastSpawnTime = 0;
-		}
 	});
 }
 
@@ -230,7 +224,6 @@ void draw()
 	tigl::shader->setModelMatrix(glm::mat4(1.0f));
 
 	tigl::shader->enableColor(true);
-	//tigl::shader->enableColorMult(true);
 
 	for (auto& o : objects)
 	{

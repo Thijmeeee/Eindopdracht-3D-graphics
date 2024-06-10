@@ -11,7 +11,7 @@ NumberComponent::NumberComponent(std::shared_ptr<ModelComponent> numberModel, bo
 	numberMatrix = glm::rotate(numberMatrix, glm::radians(-90.0f), glm::vec3(1, 0, 0));
 	numberMatrix = glm::rotate(numberMatrix, glm::radians(180.0f), glm::vec3(0, 0, 1));
 	numberMatrix = glm::rotate(numberMatrix, glm::radians(180.0f), glm::vec3(0, 1, 0));
-	color = glm::vec4(1.0, 0.0f, 0.0f, 1.0f);
+	color = glm::vec4(0.0, 1.0f, 0.0f, 1.0f);
 }
 
 void NumberComponent::draw()

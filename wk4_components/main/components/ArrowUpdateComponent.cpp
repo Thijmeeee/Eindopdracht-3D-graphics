@@ -17,7 +17,7 @@ void ArrowUpdateComponent::update(float elapsedTime)
 
 	std::shared_ptr<ArrowComponent> arrow = gameObject->getComponent<ArrowComponent>();
 	
-	if (gameObject->position.z > 25.0f && gameObject->position.z < 25.5f)
+	if (gameObject->position.z > 24.5f && gameObject->position.z < 26.0f)
 	{
 		if (glfwGetKey(glfwGetCurrentContext(), GLFW_KEY_UP) == GLFW_PRESS && arrow->direction == ArrowComponent::Direction::UP)
 		{
