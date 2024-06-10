@@ -161,6 +161,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="main\Game.cpp" />
     <ClCompile Include="main\components\ArrowComponent.cpp" />
     <ClCompile Include="main\Camera.cpp" />
     <ClCompile Include="main\components\ArrowUpdateComponent.cpp" />
@@ -176,6 +177,7 @@
     <ClCompile Include="main\components\ModelComponent.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="main\Game.h" />
     <ClInclude Include="main\components\ArrowComponent.h" />
     <ClInclude Include="main\Camera.h" />
     <ClInclude Include="main\components\ArrowUpdateComponent.h" />
@@ -187,7 +189,6 @@
     <ClInclude Include="main\GameObject.h" />
     <ClInclude Include="main\components\MoveToComponent.h" />
     <ClInclude Include="main\stb_image.h" />
-    <ClInclude Include="main\stb_truetype.h" />
     <ClInclude Include="main\tigl.h" />
     <ClInclude Include="main\Texture.h" />
     <ClInclude Include="main\components\ModelComponent.h" />
