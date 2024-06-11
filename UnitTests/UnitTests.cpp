@@ -1,6 +1,6 @@
 #include "pch.h"
 #include "CppUnitTest.h"
-#include "../wk4_components/main/"
+#include "../wk4_components/main/Game.h"
 
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 

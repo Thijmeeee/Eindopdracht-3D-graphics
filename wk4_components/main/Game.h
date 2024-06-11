@@ -45,13 +45,14 @@ private:
 	GLFWwindow* window;
 	Camera* camera;
 
-	double lastFrameTime = 0;
-	float totalGameTime = 20.0f;
-	float remainingTime = totalGameTime;
-	float lastSpawnTime = 0;
-	float spawnInterval = 30.0f;
+	const float INCREASE_DIFFICULTY_NUMBER = 0.001;
 
-	int gameScore = 0;
+	double lastFrameTime = 0;
+	float lastSpawnTime = 0;
+	float minimumSpawnInterval = 0.4f;
+	float spawnInterval = 2.0f;
+
+	int gameScore = 99;
 
 };
 

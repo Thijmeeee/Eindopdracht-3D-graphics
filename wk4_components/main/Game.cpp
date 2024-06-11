@@ -1,26 +1,34 @@
 #include "Game.h"
 
-bool enable_camera = true;
+bool enable_camera = false;
 
 Game::Game(GLFWwindow* window) : window(window) {}
 
 void Game::init_models() {
+
+	auto ground_plane = std::make_shared<GameObject>();
+	ground_plane->position = glm::vec3(0, 1, 5);
+	ground_plane->addComponent(std::make_shared<GroundPlaneComponent>());
+	objects.push_back(ground_plane);
+
 	arrowModel = std::make_shared<ModelComponent>("./assets/arrow/Arrow5.obj");
 	arrowModel->loadModel();
-
 	auto numberModel = scoreManager.getNumberModel(0);
 
 	auto unitsNumberObject = std::make_shared<GameObject>();
-	unitsNumberObject->addComponent(std::make_shared<MoveToComponent>());
-	unitsNumberObject->getComponent<MoveToComponent>()->target = glm::vec3(0, 3, -10);
-	unitsNumberObject->addComponent(std::make_shared<NumberComponent>(numberModel, true, false));
+	unitsNumberObject->addComponent(std::make_shared<NumberComponent>(numberModel, true, NumberComponent::UNIT));
+	unitsNumberObject->getComponent<NumberComponent>()->setPosition(glm::vec3(0, 3, -15));
 	objects.push_back(unitsNumberObject);
 
 	auto tensNumberObject = std::make_shared<GameObject>();
-	tensNumberObject->addComponent(std::make_shared<MoveToComponent>());
-	tensNumberObject->getComponent<MoveToComponent>()->target = glm::vec3(-6, 3, -10);
-	tensNumberObject->addComponent(std::make_shared<NumberComponent>(numberModel, true, true));
+	tensNumberObject->addComponent(std::make_shared<NumberComponent>(numberModel, false, NumberComponent::TENS));
+	tensNumberObject->getComponent<NumberComponent>()->setPosition(glm::vec3(-6, 3, -15));
 	objects.push_back(tensNumberObject);
+
+	auto hundersNumberObject = std::make_shared<GameObject>();
+	hundersNumberObject->addComponent(std::make_shared<NumberComponent>(numberModel, false, NumberComponent::HUNDERDS));
+	hundersNumberObject->getComponent<NumberComponent>()->setPosition(glm::vec3(-12, 3, -15));
+	objects.push_back(hundersNumberObject);
 
 	auto up = std::make_shared<GameObject>();
 	auto down = std::make_shared<GameObject>();
@@ -55,11 +63,6 @@ void Game::init() {
 	tigl::shader->setShinyness(0);
 	camera = new Camera(window);
 
-	auto ground_plane = std::make_shared<GameObject>();
-	ground_plane->position = glm::vec3(0, 1, 5);
-	ground_plane->addComponent(std::make_shared<GroundPlaneComponent>());
-	objects.push_back(ground_plane);
-
 	init_models();
 
 	glfwSetKeyCallback(window, [](GLFWwindow* window, int key, int scancode, int action, int mods)
@@ -76,36 +79,41 @@ void Game::init() {
 void Game::update() {
 	if (enable_camera) camera->update(window);
 
-	remainingTime = std::max(0.0f, totalGameTime - (float)glfwGetTime());
-	spawnInterval = remainingTime / 10.0f;
+	if (spawnInterval > minimumSpawnInterval) {
+		spawnInterval -= INCREASE_DIFFICULTY_NUMBER;
+	}
+	else spawnInterval = minimumSpawnInterval;
 
 	float currentFrameTime = (float)glfwGetTime();
 	float deltaTime = currentFrameTime - lastFrameTime;
 	lastFrameTime = currentFrameTime;
 
-	if (remainingTime > 2.0f)
+	if (currentFrameTime - lastSpawnTime >= spawnInterval)
 	{
-		if (currentFrameTime - lastSpawnTime >= spawnInterval)
-		{
-			spawnRandomArrow();
-			lastSpawnTime = currentFrameTime;
-		}
+		spawnRandomArrow();
+		lastSpawnTime = currentFrameTime;
 	}
 
 	int units = gameScore % 10;
-	int tens = gameScore / 10;
+	int tens = (gameScore / 10) % 10;
+	int hundreds = gameScore / 100;
 
 	for (auto& o : objects)
 	{
 		auto numberComponent = o->getComponent<NumberComponent>();
 		if (numberComponent != nullptr) {
-			if (numberComponent->tens) {
-				numberComponent->numberModel = scoreManager.getNumberModel(tens);
-				numberComponent->shouldBeVisible = true;
+			if (numberComponent->unit == NumberComponent::HUNDERDS) {
+				if (hundreds > 0) {
+					numberComponent->numberModel = scoreManager.getNumberModel(hundreds);
+					numberComponent->shouldBeVisible = true;
+				}
+			}
+			else if (numberComponent->unit == NumberComponent::TENS){
+					numberComponent->numberModel = scoreManager.getNumberModel(tens);
+					numberComponent->shouldBeVisible = true;
 			}
 			else {
 				numberComponent->numberModel = scoreManager.getNumberModel(units);
-				numberComponent->shouldBeVisible = true;
 			}
 		}
 
@@ -145,8 +153,7 @@ void Game::draw() {
 
 	for (auto& o : objects)
 	{
-		if (o->getComponent<NumberComponent>() != nullptr) {
-			o->draw();
+		if (o->getComponent<NumberComponent>() != nullptr && !(o->getComponent<NumberComponent>()->shouldBeVisible)) {
 			continue;
 		}
 		o->draw();

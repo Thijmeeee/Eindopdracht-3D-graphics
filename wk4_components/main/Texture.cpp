@@ -42,9 +42,7 @@ Texture::Texture() {
 
 void Texture::bind()
 {
-	tigl::shader->enableAlphaTest(true);
 	glBindTexture(GL_TEXTURE_2D, id);
-	tigl::shader->enableTexture(true);
 }
 
 //Sets new image as current one, so it doesnt make a new Texture 
@@ -69,6 +67,5 @@ void Texture::updateTexture(cv::Mat& cvImage) {
 void Texture::unbind()
 {
 	glBindTexture(GL_TEXTURE_2D, 0);
-	tigl::shader->enableTexture(false);
-	tigl::shader->enableAlphaTest(false);
+	
 }

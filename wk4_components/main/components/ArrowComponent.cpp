@@ -11,7 +11,7 @@ ArrowComponent::ArrowComponent(Direction direction, std::shared_ptr<ModelCompone
 	{
 		z = 0;
 	}
-
+	
 	arrowMatrix = glm::scale(arrowMatrix, glm::vec3(0.25));
 	switch (direction)
 	{
