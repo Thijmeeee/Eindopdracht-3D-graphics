@@ -67,9 +67,8 @@ void Game::init() {
 
 	init_models();
 
-	if (!test.TestListNotEmpty(objects)) {
-		std::cout << "List is empty and not right initialized" << std::endl;
-	}
+	test.TestListNotEmpty(objects);
+	test.TestCountOfObjectList(objects);
 
 	glfwSetKeyCallback(window, [](GLFWwindow* window, int key, int scancode, int action, int mods)
 		{

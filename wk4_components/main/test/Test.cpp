@@ -1,9 +1,23 @@
 #include "Test.h"
 
+Test::Test() {}
+
 bool Test::TestListNotEmpty(std::list<std::shared_ptr<GameObject>> objects) {
-	bool result = !objects.empty();
+    std::ofstream file;
+    file.open(FILEPATH, std::ios_base::app);
 
-	if (result) std::cout << "Object list is right initialized" << std::endl;
+    bool result = !objects.empty();
+    if (result) file << "Models are loaded in correctly.\n";
 
-	return result;
+    file.close();
+    return result;
+}
+
+void Test::TestCountOfObjectList(std::list<std::shared_ptr<GameObject>> objects) {
+    std::ofstream file;
+    file.open(FILEPATH, std::ios_base::app);
+
+    file << "The expected result is 8, the result of the test is: " << objects.size() << "\n";
+
+    file.close();
 }
