@@ -161,36 +161,38 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="main\Game.cpp" />
+    <ClCompile Include="main\game\Game.cpp" />
     <ClCompile Include="main\components\ArrowComponent.cpp" />
-    <ClCompile Include="main\Camera.cpp" />
+    <ClCompile Include="main\game\Camera.cpp" />
     <ClCompile Include="main\components\ArrowUpdateComponent.cpp" />
     <ClCompile Include="main\components\GroundPlaneComponent.cpp" />
     <ClCompile Include="main\components\Component.cpp" />
     <ClCompile Include="main\components\DrawComponent.cpp" />
     <ClCompile Include="main\components\NumberComponent.cpp" />
-    <ClCompile Include="main\GameObject.cpp" />
+    <ClCompile Include="main\game\GameObject.cpp" />
     <ClCompile Include="main\main.cpp" />
     <ClCompile Include="main\components\MoveToComponent.cpp" />
-    <ClCompile Include="main\tigl.cpp" />
-    <ClCompile Include="main\Texture.cpp" />
+    <ClCompile Include="main\test\Test.cpp" />
+    <ClCompile Include="lib\tigl.cpp" />
+    <ClCompile Include="main\game\Texture.cpp" />
     <ClCompile Include="main\components\ModelComponent.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="main\Game.h" />
+    <ClInclude Include="main\game\Game.h" />
     <ClInclude Include="main\components\ArrowComponent.h" />
-    <ClInclude Include="main\Camera.h" />
+    <ClInclude Include="main\game\Camera.h" />
     <ClInclude Include="main\components\ArrowUpdateComponent.h" />
     <ClInclude Include="main\components\GroundPlaneComponent.h" />
     <ClInclude Include="main\components\Component.h" />
     <ClInclude Include="main\components\DrawComponent.h" />
     <ClInclude Include="main\components\NumberComponent.h" />
-    <ClInclude Include="main\ScoreManager.h" />
-    <ClInclude Include="main\GameObject.h" />
+    <ClInclude Include="main\game\ScoreManager.h" />
+    <ClInclude Include="main\game\GameObject.h" />
     <ClInclude Include="main\components\MoveToComponent.h" />
-    <ClInclude Include="main\stb_image.h" />
-    <ClInclude Include="main\tigl.h" />
-    <ClInclude Include="main\Texture.h" />
+    <ClInclude Include="lib\stb_image.h" />
+    <ClInclude Include="main\test\Test.h" />
+    <ClInclude Include="lib\tigl.h" />
+    <ClInclude Include="main\game\Texture.h" />
     <ClInclude Include="main\components\ModelComponent.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

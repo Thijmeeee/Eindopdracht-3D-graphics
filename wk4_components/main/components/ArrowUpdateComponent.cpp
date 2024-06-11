@@ -4,7 +4,7 @@
 #include "ArrowUpdateComponent.h"
 #include "ArrowComponent.h"
 #include "MoveToComponent.h"
-#include "../GameObject.h"
+#include "../game/GameObject.h"
 
 
 void ArrowUpdateComponent::update(float elapsedTime)

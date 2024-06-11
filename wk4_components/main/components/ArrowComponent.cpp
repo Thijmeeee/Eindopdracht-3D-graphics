@@ -1,6 +1,6 @@
 #include "ArrowComponent.h"
 
-#include "../GameObject.h"
+#include "../game/GameObject.h"
 
 
 ArrowComponent::ArrowComponent(Direction direction, std::shared_ptr<ModelComponent> arrowModel, bool spawner)

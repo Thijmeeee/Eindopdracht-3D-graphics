@@ -2,7 +2,7 @@
 
 #include "DrawComponent.h"
 #include "../tigl.h"
-#include "../Texture.h"
+#include "../game/Texture.h"
 #include <string>
 #include <vector>
 #include <list>

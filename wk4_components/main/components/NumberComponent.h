@@ -5,7 +5,7 @@
 #include "../tigl.h"
 #include "DrawComponent.h"
 #include "ModelComponent.h"
-#include "../GameObject.h"
+#include "../game/GameObject.h"
 
 using tigl::Vertex;
 

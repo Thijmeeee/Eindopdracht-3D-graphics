@@ -1,7 +1,7 @@
 #include "MoveToComponent.h"
 
 #include "ArrowComponent.h"
-#include "..\GameObject.h"
+#include "../game/GameObject.h"
 
 
 MoveToComponent::MoveToComponent()

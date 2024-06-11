@@ -21,10 +21,10 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="main\tigl.cpp">
+    <ClCompile Include="lib\tigl.cpp">
       <Filter>lib</Filter>
     </ClCompile>
-    <ClCompile Include="main\GameObject.cpp">
+    <ClCompile Include="main\game\GameObject.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="main\main.cpp">
@@ -42,10 +42,10 @@
     <ClCompile Include="main\components\GroundPlaneComponent.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="main\Texture.cpp">
+    <ClCompile Include="main\game\Texture.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="main\Camera.cpp">
+    <ClCompile Include="main\game\Camera.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="main\components\ModelComponent.cpp">
@@ -60,12 +60,18 @@
     <ClCompile Include="main\components\NumberComponent.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="main\game\Game.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="main\test\Test.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="main\tigl.h">
+    <ClInclude Include="lib\tigl.h">
       <Filter>lib</Filter>
     </ClInclude>
-    <ClInclude Include="main\GameObject.h">
+    <ClInclude Include="main\game\GameObject.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="main\components\MoveToComponent.h">
@@ -80,13 +86,13 @@
     <ClInclude Include="main\components\GroundPlaneComponent.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="main\Texture.h">
+    <ClInclude Include="main\game\Texture.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="main\stb_image.h">
+    <ClInclude Include="lib\stb_image.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="main\Camera.h">
+    <ClInclude Include="main\game\Camera.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="main\components\ModelComponent.h">
@@ -98,13 +104,16 @@
     <ClInclude Include="main\components\ArrowUpdateComponent.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="main\stb_truetype.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="main\components\NumberComponent.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="main\ScoreManager.h">
+    <ClInclude Include="main\game\ScoreManager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="main\game\Game.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="main\test\Test.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

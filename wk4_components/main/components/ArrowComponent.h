@@ -2,7 +2,7 @@
 #include <vector>
 #include <glm/ext/matrix_transform.hpp>
 
-#include "../tigl.h"
+#include "lib/tigl.h"
 #include "DrawComponent.h"
 #include "ModelComponent.h"
 
