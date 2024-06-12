@@ -1,3 +1,1 @@
 
-Models are loaded in correctly.
-The expected result is 8, the result of the test is: 8

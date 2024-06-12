@@ -33,6 +33,7 @@ void Camera::moveY(float fac)
 	position.y += fac;
 }
 
+float speed = 0.02;
 
 void Camera::update(GLFWwindow* window)
 {
@@ -49,15 +50,15 @@ void Camera::update(GLFWwindow* window)
 	lastY = y;
 
 	if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS)
-		move(0, 0.1f);
+		move(0, speed);
 	if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)
-		move(180, 0.1f);
+		move(180, speed);
 	if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)
-		move(90, 0.1f);
+		move(90, speed);
 	if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS)
-		move(-90, 0.1f);
+		move(-90, speed);
 	if (glfwGetKey(window, GLFW_KEY_Q) == GLFW_PRESS)
-		moveY(-0.1f);
+		moveY(-speed);
 	if (glfwGetKey(window, GLFW_KEY_Z) == GLFW_PRESS)
-		moveY(0.1f);
+		moveY(speed);
 }

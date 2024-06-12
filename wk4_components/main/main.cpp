@@ -1,9 +1,3 @@
-#ifdef _DEBUG
-#pragma comment(lib, "opencv_world490d")
-#else
-#pragma comment(lib, "opencv_world490")
-#endif
-
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
 
