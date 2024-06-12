@@ -76,6 +76,7 @@ static inline std::string cleanLine(std::string line)
 */
 ModelComponent::ModelComponent(const std::string& fileName)
 {
+	this->filename = fileName;
 	std::cout << "Loading " << fileName << std::endl;
 	std::string dirName = fileName;
 	if (dirName.rfind("/") != std::string::npos)
@@ -187,6 +188,7 @@ void ModelComponent::loadModel()
 		if (group->materialIndex != -1) {
 			materials[group->materialIndex]->texture->bind();
 		}
+		else std::cout << "This material got a -1:: " << filename << std::endl;
 		
 		for (const auto &face : group->faces)
 		{

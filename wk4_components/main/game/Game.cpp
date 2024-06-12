@@ -1,22 +1,25 @@
 #include "Game.h"
+#include <main/components/HeartComponent.h>
 
 bool enable_camera = false;
 Test test;
 
-
 Game::Game(GLFWwindow* window) : window(window) {}
 
 void Game::init_models() {
-
+	// INIT GROUND PLANE
 	auto ground_plane = std::make_shared<GameObject>();
 	ground_plane->position = glm::vec3(0, 1, 5);
 	ground_plane->addComponent(std::make_shared<GroundPlaneComponent>());
 	objects.push_back(ground_plane);
 
+	// INIT MODELS
 	arrowModel = std::make_shared<ModelComponent>("./assets/arrow/Arrow5.obj");
 	arrowModel->loadModel();
+	auto heartModel = std::make_shared<ModelComponent>("./assets/heart/heart.obj");
 	auto numberModel = scoreManager.getNumberModel(0);
 
+	// INIT UNITS = SCOREBOARD
 	auto unitsNumberObject = std::make_shared<GameObject>();
 	unitsNumberObject->addComponent(std::make_shared<NumberComponent>(numberModel, true, NumberComponent::UNIT));
 	unitsNumberObject->getComponent<NumberComponent>()->setPosition(glm::vec3(0, 3, -15));
@@ -32,6 +35,7 @@ void Game::init_models() {
 	hundersNumberObject->getComponent<NumberComponent>()->setPosition(glm::vec3(-12, 3, -15));
 	objects.push_back(hundersNumberObject);
 
+	// INIT STANDARD ARROWS
 	auto up = std::make_shared<GameObject>();
 	auto down = std::make_shared<GameObject>();
 	auto left = std::make_shared<GameObject>();
@@ -46,6 +50,18 @@ void Game::init_models() {
 	objects.push_back(down);
 	objects.push_back(left);
 	objects.push_back(right);
+
+	// INIT HEARTS
+	
+	auto heart1 = std::make_shared<GameObject>();
+	heart1->addComponent(std::make_shared<HeartComponent>(1, heartModel));
+	heart1->getComponent<HeartComponent>()->setPosition(glm::vec3(0, 0, 0));
+	//heart2->addComponent(std::make_shared<HeartComponent>(2, heartModel));
+	//heart3->addComponent(std::make_shared<HeartComponent>(3, heartModel));
+
+	objects.push_back(heart1);
+	//objects.push_back(heart2);
+	//objects.push_back(heart3);
 }
 
 void Game::init() {
@@ -75,9 +91,7 @@ void Game::init() {
 			if (key == GLFW_KEY_ESCAPE)
 				glfwSetWindowShouldClose(window, true);
 			if (key == GLFW_KEY_LEFT_ALT && action == GLFW_PRESS) 
-				enable_camera = !enable_camera;
-			
-				 
+				enable_camera = !enable_camera; 
 		});
 }
 
@@ -156,13 +170,12 @@ void Game::draw() {
 
 	tigl::shader->enableColor(true);
 
-	for (auto& o : objects)
-	{
+	std::for_each(objects.begin(), objects.end(), [](std::shared_ptr<GameObject> o) {
 		if (o->getComponent<NumberComponent>() != nullptr && !(o->getComponent<NumberComponent>()->shouldBeVisible)) {
-			continue;
+			return;
 		}
 		o->draw();
-	}
+		});
 }
 
 void Game::spawnRandomArrow() {

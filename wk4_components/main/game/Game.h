@@ -22,6 +22,7 @@
 #define STB_TRUETYPE_IMPLEMENTATION
 #include "lib/stb_image.h"
 #include "../test/Test.h"
+#include <algorithm>
 
 using tigl::Vertex;
 
