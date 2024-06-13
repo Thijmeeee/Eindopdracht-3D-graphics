@@ -1,9 +1,3 @@
-#ifdef _DEBUG
-#pragma comment(lib, "opencv_world490d")
-#else
-#pragma comment(lib, "opencv_world490")
-#endif
-
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
 
@@ -22,7 +16,6 @@ Game* game;
 
 int main(void)
 {
-	
 	if (!glfwInit())
 		throw "Could not initialize glwf";
 	window = glfwCreateWindow(1920, 1080, "Hello World", NULL, NULL);

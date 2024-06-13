@@ -41,6 +41,7 @@ public:
 private:
 
 	std::list<std::shared_ptr<GameObject>> objects;
+	std::list<std::shared_ptr<GameObject>> hearts;
 	std::shared_ptr<ModelComponent> arrowModel;
 
 	ScoreManager scoreManager;
@@ -54,7 +55,8 @@ private:
 	float minimumSpawnInterval = 0.4f;
 	float spawnInterval = 2.0f;
 
-	int gameScore = 99;
+	const int TOTAL_HEARTS = 3;
+	int gameScore = 0;
 
 };
 

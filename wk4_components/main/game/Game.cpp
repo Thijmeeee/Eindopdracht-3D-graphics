@@ -3,6 +3,7 @@
 
 bool enable_camera = false;
 Test test;
+int heartsLostCount = 0;
 
 Game::Game(GLFWwindow* window) : window(window) {}
 
@@ -15,8 +16,10 @@ void Game::init_models() {
 
 	// INIT MODELS
 	arrowModel = std::make_shared<ModelComponent>("./assets/arrow/Arrow5.obj");
-	arrowModel->loadModel();
 	auto heartModel = std::make_shared<ModelComponent>("./assets/heart/heart.obj");
+	arrowModel->loadModel();
+	heartModel->loadModel();
+
 	auto numberModel = scoreManager.getNumberModel(0);
 
 	// INIT UNITS = SCOREBOARD
@@ -52,16 +55,14 @@ void Game::init_models() {
 	objects.push_back(right);
 
 	// INIT HEARTS
-	
-	auto heart1 = std::make_shared<GameObject>();
-	heart1->addComponent(std::make_shared<HeartComponent>(1, heartModel));
-	heart1->getComponent<HeartComponent>()->setPosition(glm::vec3(0, 0, 0));
-	//heart2->addComponent(std::make_shared<HeartComponent>(2, heartModel));
-	//heart3->addComponent(std::make_shared<HeartComponent>(3, heartModel));
 
-	objects.push_back(heart1);
-	//objects.push_back(heart2);
-	//objects.push_back(heart3);
+	for (int i = 0; i < TOTAL_HEARTS; i++) {
+		auto heart = std::make_shared<GameObject>();
+		heart->addComponent(std::make_shared<HeartComponent>(heartModel));
+		heart->getComponent<HeartComponent>()->setPosition(glm::vec3(10 + (i * 5), 10, -15));
+		hearts.push_back(heart);
+	}
+
 }
 
 void Game::init() {
@@ -139,8 +140,21 @@ void Game::update() {
 		o->update(deltaTime);
 
 		auto arrowComponent = o->getComponent<ArrowComponent>();
-		if (arrowComponent != nullptr && arrowComponent->playerPressedOnTime) {
-			gameScore++;
+		if (arrowComponent != nullptr) {
+			if (arrowComponent->playerPressedOnTime) {
+				gameScore++;
+			}
+
+			if (arrowComponent->missed) {
+				for (auto& h : hearts) {
+					auto heart = h->getComponent<HeartComponent>();
+					if (!(heart->lifeLost)) {
+						heart->lifeLost = true;
+						heartsLostCount++;
+						break;
+					}
+				}
+			}
 		}
 	}
 
@@ -148,6 +162,10 @@ void Game::update() {
 		{
 			return o->destroy;
 		}), objects.end());
+
+	if (heartsLostCount == TOTAL_HEARTS) {
+		glfwSetWindowShouldClose(window, true);
+	}
 }
 
 void Game::draw() {
@@ -174,8 +192,13 @@ void Game::draw() {
 		if (o->getComponent<NumberComponent>() != nullptr && !(o->getComponent<NumberComponent>()->shouldBeVisible)) {
 			return;
 		}
+
 		o->draw();
-		});
+	});
+
+	std::for_each(hearts.begin(), hearts.end(), [](std::shared_ptr<GameObject> o) {
+		o->draw();
+	});
 }
 
 void Game::spawnRandomArrow() {

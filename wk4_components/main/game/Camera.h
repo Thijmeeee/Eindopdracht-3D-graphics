@@ -17,5 +17,7 @@ private:
 
 	void move(float angle, float fac);
 	void moveY(float fac);
+
+	const float CAMERA_SPEED = 0.01f;
 };
 

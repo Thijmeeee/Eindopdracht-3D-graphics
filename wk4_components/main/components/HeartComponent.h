@@ -12,14 +12,13 @@ class HeartComponent : public DrawComponent
 {
 
 public:
-	HeartComponent(int id, std::shared_ptr<ModelComponent> heartModel);
+	HeartComponent(std::shared_ptr<ModelComponent> heartModel);
 	~HeartComponent() = default;
 
 	void setPosition(glm::vec3 position);
 	virtual void draw() override;
 
 	bool lifeLost = false;
-	int id;
 
 private:
 	std::shared_ptr<ModelComponent> heartModel;
