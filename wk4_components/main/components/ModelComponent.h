@@ -24,6 +24,7 @@ public:
 
 private
 :
+	std::string filename;
 	class Vertex
 	{
 	public:

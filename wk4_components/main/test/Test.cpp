@@ -1,23 +1,15 @@
 #include "Test.h"
 
+FileWriter fileWriter;
+
 Test::Test() {}
 
 bool Test::TestListNotEmpty(std::list<std::shared_ptr<GameObject>> objects) {
-    std::ofstream file;
-    file.open(FILEPATH, std::ios_base::app);
-
     bool result = !objects.empty();
-    if (result) file << "Models are loaded in correctly.\n";
-
-    file.close();
+    if (result) fileWriter.writeTextToFile("Models are loaded in correctly.");
     return result;
 }
 
 void Test::TestCountOfObjectList(std::list<std::shared_ptr<GameObject>> objects) {
-    std::ofstream file;
-    file.open(FILEPATH, std::ios_base::app);
-
-    file << "The expected result is 8, the result of the test is: " << objects.size() << "\n";
-
-    file.close();
+    fileWriter.writeTextToFile("Expected is 8, the result of the test is: " + std::to_string(objects.size()));
 }

@@ -1,22 +1,30 @@
 #include "Game.h"
 
+
 bool enable_camera = false;
+
 Test test;
 
+int heartsLostCount = 0;
 
 Game::Game(GLFWwindow* window) : window(window) {}
 
 void Game::init_models() {
-
+	// INIT GROUND PLANE
 	auto ground_plane = std::make_shared<GameObject>();
 	ground_plane->position = glm::vec3(0, 1, 5);
 	ground_plane->addComponent(std::make_shared<GroundPlaneComponent>());
 	objects.push_back(ground_plane);
 
+	// INIT MODELS
 	arrowModel = std::make_shared<ModelComponent>("./assets/arrow/Arrow5.obj");
+	auto heartModel = std::make_shared<ModelComponent>("./assets/heart/heart.obj");
 	arrowModel->loadModel();
+	heartModel->loadModel();
+
 	auto numberModel = scoreManager.getNumberModel(0);
 
+	// INIT UNITS = SCOREBOARD
 	auto unitsNumberObject = std::make_shared<GameObject>();
 	unitsNumberObject->addComponent(std::make_shared<NumberComponent>(numberModel, true, NumberComponent::UNIT));
 	unitsNumberObject->getComponent<NumberComponent>()->setPosition(glm::vec3(0, 3, -15));
@@ -32,6 +40,7 @@ void Game::init_models() {
 	hundersNumberObject->getComponent<NumberComponent>()->setPosition(glm::vec3(-12, 3, -15));
 	objects.push_back(hundersNumberObject);
 
+	// INIT STANDARD ARROWS
 	auto up = std::make_shared<GameObject>();
 	auto down = std::make_shared<GameObject>();
 	auto left = std::make_shared<GameObject>();
@@ -46,6 +55,15 @@ void Game::init_models() {
 	objects.push_back(down);
 	objects.push_back(left);
 	objects.push_back(right);
+
+	// INIT HEARTS
+	for (int i = 0; i < TOTAL_HEARTS; i++) {
+		auto heart = std::make_shared<GameObject>();
+		heart->addComponent(std::make_shared<HeartComponent>(heartModel));
+		heart->getComponent<HeartComponent>()->setPosition(glm::vec3(10 + (i * 5), 10, -15));
+		hearts.push_back(heart);
+	}
+
 }
 
 void Game::init() {
@@ -66,7 +84,8 @@ void Game::init() {
 	camera = new Camera(window);
 
 	init_models();
-
+	
+	fileWriter.reset();
 	test.TestListNotEmpty(objects);
 	test.TestCountOfObjectList(objects);
 
@@ -75,9 +94,7 @@ void Game::init() {
 			if (key == GLFW_KEY_ESCAPE)
 				glfwSetWindowShouldClose(window, true);
 			if (key == GLFW_KEY_LEFT_ALT && action == GLFW_PRESS) 
-				enable_camera = !enable_camera;
-			
-				 
+				enable_camera = !enable_camera; 
 		});
 }
 
@@ -125,8 +142,21 @@ void Game::update() {
 		o->update(deltaTime);
 
 		auto arrowComponent = o->getComponent<ArrowComponent>();
-		if (arrowComponent != nullptr && arrowComponent->playerPressedOnTime) {
-			gameScore++;
+		if (arrowComponent != nullptr) {
+			if (arrowComponent->playerPressedOnTime) {
+				gameScore++;
+			}
+
+			if (arrowComponent->missed) {
+				for (auto& h : hearts) {
+					auto heart = h->getComponent<HeartComponent>();
+					if (!(heart->lifeLost)) {
+						heart->lifeLost = true;
+						heartsLostCount++;
+						break;
+					}
+				}
+			}
 		}
 	}
 
@@ -134,6 +164,13 @@ void Game::update() {
 		{
 			return o->destroy;
 		}), objects.end());
+
+	if (heartsLostCount == TOTAL_HEARTS) {
+		const auto now = std::chrono::system_clock::now();
+		std::string text = "The max score of " + std::format("{:%d-%m-%Y %H:%M:%OS}", now) + " was: " + std::to_string(gameScore);
+		fileWriter.writeTextToFile(text);
+		glfwSetWindowShouldClose(window, true);
+	}
 }
 
 void Game::draw() {
@@ -156,13 +193,17 @@ void Game::draw() {
 
 	tigl::shader->enableColor(true);
 
-	for (auto& o : objects)
-	{
+	std::for_each(objects.begin(), objects.end(), [](std::shared_ptr<GameObject> o) {
 		if (o->getComponent<NumberComponent>() != nullptr && !(o->getComponent<NumberComponent>()->shouldBeVisible)) {
-			continue;
+			return;
 		}
+
 		o->draw();
-	}
+	});
+
+	std::for_each(hearts.begin(), hearts.end(), [](std::shared_ptr<GameObject> o) {
+		o->draw();
+	});
 }
 
 void Game::spawnRandomArrow() {

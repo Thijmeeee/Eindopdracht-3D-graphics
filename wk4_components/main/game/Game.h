@@ -10,18 +10,23 @@
 #include "Camera.h"
 #include "GameObject.h"
 #include "ScoreManager.h"
+#include "FileWriter.h"
+#include "../test/Test.h"
 
 #include "../components/GroundPlaneComponent.h"
 #include "../components/MoveToComponent.h"
 #include "../components/ArrowComponent.h"
 #include "../components/ArrowUpdateComponent.h"
 #include "../components/NumberComponent.h"
-
 #include "../components/ModelComponent.h"
+#include <main/components/HeartComponent.h>
 
 #define STB_TRUETYPE_IMPLEMENTATION
 #include "lib/stb_image.h"
-#include "../test/Test.h"
+
+#include <algorithm>
+#include <chrono>
+#include <format>
 
 using tigl::Vertex;
 
@@ -40,20 +45,23 @@ public:
 private:
 
 	std::list<std::shared_ptr<GameObject>> objects;
+	std::list<std::shared_ptr<GameObject>> hearts;
 	std::shared_ptr<ModelComponent> arrowModel;
 
 	ScoreManager scoreManager;
+	FileWriter fileWriter;
 	GLFWwindow* window;
 	Camera* camera;
 
 	const float INCREASE_DIFFICULTY_NUMBER = 0.001;
+	const int TOTAL_HEARTS = 5;
 
 	double lastFrameTime = 0;
 	float lastSpawnTime = 0;
 	float minimumSpawnInterval = 0.4f;
 	float spawnInterval = 2.0f;
-
-	int gameScore = 99;
+	
+	int gameScore = 0;
 
 };
 

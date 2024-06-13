@@ -17,8 +17,6 @@ glm::mat4 Camera::getMatrix()
 	ret = glm::rotate(ret, rotation.y, glm::vec3(0, 1, 0));
 	ret = glm::translate(ret, position);
 
-
-
 	return ret;
 }
 
@@ -32,8 +30,6 @@ void Camera::moveY(float fac)
 {
 	position.y += fac;
 }
-
-float speed = 0.02;
 
 void Camera::update(GLFWwindow* window)
 {
@@ -50,15 +46,15 @@ void Camera::update(GLFWwindow* window)
 	lastY = y;
 
 	if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS)
-		move(0, speed);
+		move(0, CAMERA_SPEED);
 	if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)
-		move(180, speed);
+		move(180, CAMERA_SPEED);
 	if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)
-		move(90, speed);
+		move(90, CAMERA_SPEED);
 	if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS)
-		move(-90, speed);
+		move(-90, CAMERA_SPEED);
 	if (glfwGetKey(window, GLFW_KEY_Q) == GLFW_PRESS)
-		moveY(-speed);
+		moveY(-CAMERA_SPEED);
 	if (glfwGetKey(window, GLFW_KEY_Z) == GLFW_PRESS)
-		moveY(speed);
+		moveY(CAMERA_SPEED);
 }

@@ -22,6 +22,7 @@ public:
 	virtual void draw() override;
 
 	bool playerPressedOnTime = false;
+	bool missed = false;
 	Direction direction;
 
 private:

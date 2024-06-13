@@ -12,10 +12,6 @@ NumberComponent::NumberComponent(std::shared_ptr<ModelComponent> numberModel, bo
 	numberMatrix = glm::rotate(numberMatrix, glm::radians(180.0f), glm::vec3(0, 0, 1));
 	numberMatrix = glm::rotate(numberMatrix, glm::radians(180.0f), glm::vec3(0, 1, 0));
 
-	if (!numberModel) {
-		std::cerr << "Error: numberModel is a nullptr in NumberComponent constructor" << std::endl;
-	}
-
 }
 
 void NumberComponent::setPosition(glm::vec3 position) {

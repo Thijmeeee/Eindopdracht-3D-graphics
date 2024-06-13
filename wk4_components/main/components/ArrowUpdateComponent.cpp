@@ -11,6 +11,7 @@ void ArrowUpdateComponent::update(float elapsedTime)
 {
 	if (gameObject->position.z >= 26.5f)
 	{
+		gameObject->getComponent<ArrowComponent>()->missed = true;
 		gameObject->destroy = true;
 
 	}
