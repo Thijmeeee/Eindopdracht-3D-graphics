@@ -1,5 +1,6 @@
 #pragma once
 #include <glm/gtc/type_ptr.hpp>
+#include "../game/FileWriter.h"
 #include "../game/GameObject.h"
 #include <list>
 #include <iostream>

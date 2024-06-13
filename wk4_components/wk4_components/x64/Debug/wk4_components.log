@@ -1,9 +1,2 @@
-﻿  Game.cpp
-C:\Users\thijm\Github\Eindopdracht-3D-graphics\wk4_components\main\components\ArrowUpdateComponent.h(1,9): warning C4068: unknown pragma 'onceq'
-C:\Users\thijm\Github\Eindopdracht-3D-graphics\wk4_components\main\game\Game.h(51,43): warning C4305: 'initializing': truncation from 'double' to 'const float'
-C:\Users\thijm\Github\Eindopdracht-3D-graphics\wk4_components\main\game\Game.cpp(108,18): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
-  main.cpp
-C:\Users\thijm\Github\Eindopdracht-3D-graphics\wk4_components\main\components\ArrowUpdateComponent.h(1,9): warning C4068: unknown pragma 'onceq'
-C:\Users\thijm\Github\Eindopdracht-3D-graphics\wk4_components\main\game\Game.h(51,43): warning C4305: 'initializing': truncation from 'double' to 'const float'
-  Generating Code...
+﻿  Test.cpp
   wk4_components.vcxproj -> C:\Users\thijm\Github\Eindopdracht-3D-graphics\wk4_components\x64\Debug\wk4_components.exe

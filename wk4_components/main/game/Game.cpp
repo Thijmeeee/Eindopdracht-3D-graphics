@@ -1,8 +1,10 @@
 #include "Game.h"
-#include <main/components/HeartComponent.h>
+
 
 bool enable_camera = false;
+
 Test test;
+
 int heartsLostCount = 0;
 
 Game::Game(GLFWwindow* window) : window(window) {}
@@ -55,7 +57,6 @@ void Game::init_models() {
 	objects.push_back(right);
 
 	// INIT HEARTS
-
 	for (int i = 0; i < TOTAL_HEARTS; i++) {
 		auto heart = std::make_shared<GameObject>();
 		heart->addComponent(std::make_shared<HeartComponent>(heartModel));
@@ -83,7 +84,8 @@ void Game::init() {
 	camera = new Camera(window);
 
 	init_models();
-
+	
+	fileWriter.reset();
 	test.TestListNotEmpty(objects);
 	test.TestCountOfObjectList(objects);
 
@@ -164,6 +166,9 @@ void Game::update() {
 		}), objects.end());
 
 	if (heartsLostCount == TOTAL_HEARTS) {
+		const auto now = std::chrono::system_clock::now();
+		std::string text = "The max score of " + std::format("{:%d-%m-%Y %H:%M:%OS}", now) + " was: " + std::to_string(gameScore);
+		fileWriter.writeTextToFile(text);
 		glfwSetWindowShouldClose(window, true);
 	}
 }

@@ -162,6 +162,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="main\components\HeartComponent.cpp" />
+    <ClCompile Include="main\game\FileWriter.cpp" />
     <ClCompile Include="main\game\Game.cpp" />
     <ClCompile Include="main\components\ArrowComponent.cpp" />
     <ClCompile Include="main\game\Camera.cpp" />
@@ -180,6 +181,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main\components\HeartComponent.h" />
+    <ClInclude Include="main\game\FileWriter.h" />
     <ClInclude Include="main\game\Game.h" />
     <ClInclude Include="main\components\ArrowComponent.h" />
     <ClInclude Include="main\game\Camera.h" />

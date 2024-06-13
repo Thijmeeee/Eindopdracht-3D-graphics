@@ -1,61 +1,6 @@
+Models are loaded in correctly.
 
-Models are loaded in correctly.
-The expected result is 8, the result of the test is: 8
-Models are loaded in correctly.
-The expected result is 8, the result of the test is: 8
-Models are loaded in correctly.
-The expected result is 8, the result of the test is: 8
-Models are loaded in correctly.
-The expected result is 8, the result of the test is: 9
-Models are loaded in correctly.
-The expected result is 8, the result of the test is: 9
-Models are loaded in correctly.
-The expected result is 8, the result of the test is: 9
-Models are loaded in correctly.
-The expected result is 8, the result of the test is: 9
-Models are loaded in correctly.
-The expected result is 8, the result of the test is: 9
-Models are loaded in correctly.
-The expected result is 8, the result of the test is: 9
-Models are loaded in correctly.
-The expected result is 8, the result of the test is: 9
-Models are loaded in correctly.
-The expected result is 8, the result of the test is: 9
-Models are loaded in correctly.
-The expected result is 8, the result of the test is: 9
-Models are loaded in correctly.
-The expected result is 8, the result of the test is: 1
-Models are loaded in correctly.
-The expected result is 8, the result of the test is: 9
-Models are loaded in correctly.
-The expected result is 8, the result of the test is: 9
-Models are loaded in correctly.
-The expected result is 8, the result of the test is: 9
-Models are loaded in correctly.
-The expected result is 8, the result of the test is: 9
-Models are loaded in correctly.
-The expected result is 8, the result of the test is: 9
-Models are loaded in correctly.
-The expected result is 8, the result of the test is: 9
-Models are loaded in correctly.
-The expected result is 8, the result of the test is: 9
-Models are loaded in correctly.
-The expected result is 8, the result of the test is: 9
-Models are loaded in correctly.
-The expected result is 8, the result of the test is: 9
-Models are loaded in correctly.
-The expected result is 8, the result of the test is: 9
-Models are loaded in correctly.
-The expected result is 8, the result of the test is: 9
-Models are loaded in correctly.
-The expected result is 8, the result of the test is: 9
-Models are loaded in correctly.
-The expected result is 8, the result of the test is: 9
-Models are loaded in correctly.
-The expected result is 8, the result of the test is: 9
-Models are loaded in correctly.
-The expected result is 8, the result of the test is: 9
-Models are loaded in correctly.
-The expected result is 8, the result of the test is: 9
-Models are loaded in correctly.
-The expected result is 8, the result of the test is: 9
+Expected is 8, the result of the test is: 8
+
+The max score of 13-06-2024 10:50:37 was: 0
+

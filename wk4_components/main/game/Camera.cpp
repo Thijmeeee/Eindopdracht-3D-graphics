@@ -17,8 +17,6 @@ glm::mat4 Camera::getMatrix()
 	ret = glm::rotate(ret, rotation.y, glm::vec3(0, 1, 0));
 	ret = glm::translate(ret, position);
 
-
-
 	return ret;
 }
 
