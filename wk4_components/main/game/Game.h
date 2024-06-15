@@ -1,6 +1,5 @@
 #pragma once
 
-
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
 #include "lib/tigl.h"
@@ -9,7 +8,7 @@
 
 #include "Camera.h"
 #include "GameObject.h"
-#include "ScoreManager.h"
+#include "LoadNumbers.h"
 #include "FileWriter.h"
 #include "../test/Test.h"
 
@@ -48,7 +47,7 @@ private:
 	std::list<std::shared_ptr<GameObject>> hearts;
 	std::shared_ptr<ModelComponent> arrowModel;
 
-	ScoreManager scoreManager;
+	LoadNumbers loadNumbers;
 	FileWriter fileWriter;
 	GLFWwindow* window;
 	Camera* camera;

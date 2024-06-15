@@ -1,10 +1,7 @@
 #include "Game.h"
 
-
-bool enable_camera = false;
-
 Test test;
-
+bool enable_camera = false;
 int heartsLostCount = 0;
 
 Game::Game(GLFWwindow* window) : window(window) {}
@@ -22,7 +19,7 @@ void Game::init_models() {
 	arrowModel->loadModel();
 	heartModel->loadModel();
 
-	auto numberModel = scoreManager.getNumberModel(0);
+	auto numberModel = loadNumbers.getNumberModel(0);
 
 	// INIT UNITS = SCOREBOARD
 	auto unitsNumberObject = std::make_shared<GameObject>();
@@ -126,16 +123,16 @@ void Game::update() {
 		if (numberComponent != nullptr) {
 			if (numberComponent->unit == NumberComponent::HUNDERDS) {
 				if (hundreds > 0) {
-					numberComponent->numberModel = scoreManager.getNumberModel(hundreds);
+					numberComponent->numberModel = loadNumbers.getNumberModel(hundreds);
 					numberComponent->shouldBeVisible = true;
 				}
 			}
 			else if (numberComponent->unit == NumberComponent::TENS){
-					numberComponent->numberModel = scoreManager.getNumberModel(tens);
+					numberComponent->numberModel = loadNumbers.getNumberModel(tens);
 					numberComponent->shouldBeVisible = true;
 			}
 			else {
-				numberComponent->numberModel = scoreManager.getNumberModel(units);
+				numberComponent->numberModel = loadNumbers.getNumberModel(units);
 			}
 		}
 

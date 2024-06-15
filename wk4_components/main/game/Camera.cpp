@@ -2,12 +2,7 @@
 #include <GLFW/glfw3.h>
 #include <glm/gtc/matrix_transform.hpp>
 
-Camera::Camera(GLFWwindow* window)
-{
-	// glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
-	// if (glfwRawMouseMotionSupported())
-	// 	glfwSetInputMode(window, GLFW_RAW_MOUSE_MOTION, GLFW_TRUE);
-}
+Camera::Camera(GLFWwindow* window){}
 
 
 glm::mat4 Camera::getMatrix()

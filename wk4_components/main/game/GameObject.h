@@ -18,8 +18,8 @@ class GameObject
 	
 	std::list<std::shared_ptr<Component>> components;
 public:
-	GameObject();
-	~GameObject();
+	GameObject() = default;
+	~GameObject() = default;
 
 	glm::vec3 position = glm::vec3(0,0,0);
 	glm::vec3 rotation = glm::vec3(0,0,0);

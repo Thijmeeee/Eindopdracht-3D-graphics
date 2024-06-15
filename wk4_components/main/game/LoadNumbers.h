@@ -5,12 +5,12 @@
 
 #include "../components/ModelComponent.h"
 
-class ScoreManager {
+class LoadNumbers {
 private:
 	std::unordered_map<int, std::shared_ptr<ModelComponent>> numbersModels;
 
 public:
-	ScoreManager() {
+	LoadNumbers() {
         for (int i = 0; i < 10; ++i) {
             std::string filePath = "./assets/numbers/" + std::to_string(i) + ".obj";
             auto numberModel = std::make_shared<ModelComponent>(filePath);

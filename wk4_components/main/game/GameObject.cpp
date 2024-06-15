@@ -1,15 +1,5 @@
 #include "GameObject.h"
 
-
-GameObject::GameObject()
-{
-}
-
-
-GameObject::~GameObject()
-{
-}
-
 void GameObject::addComponent(std::shared_ptr<Component> component)
 {
 	component->setGameObject(this);
@@ -24,7 +14,6 @@ std::list<std::shared_ptr<Component>> GameObject::getComponents()
 {
 	return components;
 }
-
 
 void GameObject::draw(const glm::mat4 &parentMatrix)
 {
